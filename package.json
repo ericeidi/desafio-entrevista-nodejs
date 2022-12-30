@@ -17,13 +17,21 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node ./node_modules/typeorm/cli",
+    "typeorm:run-migrations": "npm run typeorm migration:run -- -d ./src/config/typeorm/typeorm.config.ts",
+    "typeorm:generate-migration": "npm run typeorm -- -d ./src/config/typeorm/typeorm.config.ts migration:generate ./src/config/migrations/",
+    "typeorm:create-migration": "npm run typeorm -- migration:create ./src/config/migrations/",
+    "typeorm:revert-migration": "npm run typeorm -- -d ./src/config/typeorm/typeorm.config.ts migration:revert"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^9.0.0",
-    "mysql": "^2.18.1",
+    "@nestjs/typeorm": "^9.0.1",
+    "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "swagger-ui-express": "^4.6.0",
