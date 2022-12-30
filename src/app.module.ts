@@ -17,7 +17,6 @@ import { CompanyModule } from './company/company.module';
       database: 'test',
       entities: [CompanySchema],
       synchronize: true,
-      dropSchema: true,
     }),
     CompanyModule,
   ],

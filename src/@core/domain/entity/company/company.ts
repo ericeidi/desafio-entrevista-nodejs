@@ -1,16 +1,25 @@
+import { CreateCompanyDto } from '../../../../company/dto/create-company.dto';
 export class Company {
   name: string;
   cnpj: string;
+  address: string;
+  telephone: string;
+  carSpaces: number;
+  motorCycleSpaces: number;
 
-  constructor(name: string, cnpj: string) {
+  constructor({
+    cnpj,
+    name,
+    address,
+    telephone,
+    carSpaces,
+    motorCycleSpaces,
+  }: CreateCompanyDto) {
     this.cnpj = cnpj;
     this.name = name;
+    this.address = address;
+    this.telephone = telephone;
+    this.carSpaces = carSpaces;
+    this.motorCycleSpaces = motorCycleSpaces;
   }
 }
-
-// Nome;
-// CNPJ;
-// Endereço;
-// Telefone;
-// Quantidade de vagas para motos;
-// Quantidade de vagas para carros.

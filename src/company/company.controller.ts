@@ -7,17 +7,13 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { CompanyServiceNest } from './company.service';
 import { CreateCompanyDto } from './dto/create-company.dto';
 import { UpdateCompanyDto } from './dto/update-company.dto';
 import { CompanyService } from 'src/@core/application/usecase/company/company.service';
 
 @Controller('company')
 export class CompanyController {
-  constructor(
-    private readonly companyServiceNest: CompanyServiceNest,
-    private readonly companyService: CompanyService,
-  ) {}
+  constructor(private readonly companyService: CompanyService) {}
 
   @Post()
   create(@Body() createCompanyDto: CreateCompanyDto) {
@@ -26,21 +22,24 @@ export class CompanyController {
 
   @Get()
   findAll() {
-    return this.companyServiceNest.findAll();
+    return this.companyService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.companyServiceNest.findOne(+id);
+  @Get(':cnpj')
+  findByCnpj(@Param('cnpj') cnpj: string) {
+    return this.companyService.findByCnpj(cnpj);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCompanyDto: UpdateCompanyDto) {
-    return this.companyServiceNest.update(+id, updateCompanyDto);
+  @Patch(':cnpj')
+  update(
+    @Param('cnpj') cnpj: string,
+    @Body() updateCompanyDto: UpdateCompanyDto,
+  ) {
+    return this.companyService.update(cnpj, updateCompanyDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.companyServiceNest.remove(+id);
+  @Delete(':cnpj')
+  delete(@Param('cnpj') cnpj: string) {
+    return this.companyService.delete(cnpj);
   }
 }

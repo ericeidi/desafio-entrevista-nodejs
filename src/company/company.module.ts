@@ -7,13 +7,11 @@ import { CompanySchema } from 'src/@core/infra/db/company/company.schema';
 import { DataSource } from 'typeorm';
 import { CompanyRepository } from 'src/@core/domain/repository/company/company.repository';
 import { CompanyService } from 'src/@core/application/usecase/company/company.service';
-import { CompanyServiceNest } from './company.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CompanySchema])],
   controllers: [CompanyController],
   providers: [
-    CompanyServiceNest,
     {
       provide: CompanyTypeormRepository,
       useFactory: (dataSource: DataSource) => {

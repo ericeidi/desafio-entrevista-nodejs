@@ -1,9 +1,18 @@
+import { CreateCompanyDto } from '../../../../company/dto/create-company.dto';
 import { Company } from './company';
+
+const mockInputParams: CreateCompanyDto = {
+  name: 'Dr.Consulta',
+  cnpj: '483212344324324',
+  address: 'Rua Das Flores',
+  telephone: '12324212342',
+  carSpaces: 53,
+  motorCycleSpaces: 43,
+};
 
 describe('Company Unit Tests', () => {
   it('should create a new company', () => {
-    const company = new Company('Dr.consulta', '483212344324324');
-    expect(company.name).toBe('Dr.consulta');
-    expect(company.cnpj).toBe('483212344324324');
+    const company = new Company(mockInputParams);
+    expect(company).toEqual(mockInputParams);
   });
 });

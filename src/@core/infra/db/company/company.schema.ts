@@ -9,6 +9,18 @@ export class CompanySchema {
   @Column()
   name: string;
 
-  @Column({ length: 15 })
+  @Column({ length: 14 })
   cnpj: string;
+
+  @Column()
+  telephone: string;
+
+  @Column()
+  address: string;
+
+  @Column()
+  carSpaces: number;
+
+  @Column()
+  motorCycleSpaces: number;
 }
