@@ -35,7 +35,6 @@ export class CompanyService {
 
   async findByCnpj(cnpj: string) {
     const company = await this.companyRepository.findByCnpj(cnpj);
-    console.log('company', company);
     if (!company) {
       throw new NotFoundException(
         'Não foi encontrado nenhum resultado para essa busca',

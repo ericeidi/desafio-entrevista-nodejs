@@ -2,7 +2,6 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class CompanySchema {
-  //typeorm
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -18,9 +17,9 @@ export class CompanySchema {
   @Column()
   address: string;
 
-  @Column()
+  @Column({ name: 'car_spaces' })
   carSpaces: number;
 
-  @Column()
+  @Column({ name: 'motorcyle_spaces' })
   motorCycleSpaces: number;
 }

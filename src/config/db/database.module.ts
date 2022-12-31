@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CompanySchema } from 'src/@core/infra/db/company/company.schema';
+import { VehicleTypeSchema } from 'src/@core/infra/db/vehicle-type/vehicle-type.schema';
+import { VehicleSchema } from 'src/@core/infra/db/vehicle/vehicle.schema';
+import { UserSchema } from '../../@core/infra/db/user/user.schema';
 
 @Module({
   imports: [
@@ -10,12 +13,12 @@ import { CompanySchema } from 'src/@core/infra/db/company/company.schema';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
-        host: 'localhost',
-        port: 3306,
-        username: 'test',
-        password: 'test',
-        database: 'test',
-        entities: [CompanySchema],
+        host: configService.get<string>('HOST'),
+        port: configService.get<number>('PORT'),
+        username: configService.get<string>('USER'),
+        password: configService.get<string>('PASSWORD'),
+        database: configService.get<string>('DATABASE'),
+        entities: [CompanySchema, VehicleTypeSchema, VehicleSchema, UserSchema],
         autoLoadEntities: true,
       }),
     }),
