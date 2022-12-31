@@ -6,11 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateVehicleTypeDto } from './dto/create-vehicle-type.dto';
 import { UpdateVehicleTypeDto } from './dto/update-vehicle-type.dto';
 import { VehicleTypeService } from 'src/@core/application/usecase/vehicle-type/vehicle-type.service';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('vehicle-type')
 export class VehicleTypeController {
   constructor(private readonly vehicleTypeService: VehicleTypeService) {}

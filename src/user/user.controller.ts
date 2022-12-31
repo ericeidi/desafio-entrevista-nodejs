@@ -6,14 +6,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ParkingLotService } from 'src/@core/application/usecase/parking-lot/parking-lot.service';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserService } from '../@core/application/usecase/user/user.service';
 import { CreateParkingReservationDto } from './dto/create-parking-reservation.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateParkingReservationDto } from './dto/update-parking-reservation.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-
+@UseGuards(JwtAuthGuard)
 @Controller('user')
 export class UserController {
   constructor(
@@ -33,7 +35,7 @@ export class UserController {
     this.parkinglotService.startReservation(createParkingReservationDto);
   }
 
-  @Post('finish-reservation')
+  @Patch('finish-reservation')
   finishReservation(
     @Body() updateParkingReservationDto: UpdateParkingReservationDto,
   ) {

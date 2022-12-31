@@ -18,15 +18,21 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const user = new User(createUserDto);
-    const savedUser = await this.userRepository.insert(user);
-    user.id = savedUser.id;
     const verifyLicensePlate = await this.vehicleRepository.findByLicensePlate(
       createUserDto.licensePlate,
     );
     if (verifyLicensePlate.length !== 0) {
       throw new BadRequestException('Placa já utilizada');
     }
+    const user = new User(createUserDto);
+    const userAlreadyExists = await this.userRepository.findByUsername(
+      user.name,
+    );
+    if (userAlreadyExists) {
+      throw new BadRequestException('Usuário já existe');
+    }
+    const savedUser = await this.userRepository.insert(user);
+    user.id = savedUser.id;
     const vehicleType = await this.vehicleTypeRepository.findByType(
       createUserDto.vehicleTypeId,
     );
@@ -48,6 +54,16 @@ export class UserService {
 
   async findById(id: number) {
     const user = await this.userRepository.findById(id);
+    if (!user) {
+      throw new NotFoundException(
+        'Não foi encontrado nenhum resultado para essa busca',
+      );
+    }
+    return user;
+  }
+
+  async findByUsername(username: string) {
+    const user = await this.userRepository.findByUsername(username);
     if (!user) {
       throw new NotFoundException(
         'Não foi encontrado nenhum resultado para essa busca',

@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { Vehicle } from '../vehicle/vehicle';
 import { CreateUserDto } from '../../../../user/dto/create-user.dto';
 import { VehicleType } from '../vehicle-type/vehicle-type';
+import * as bcrypt from 'bcrypt';
 
 export class User {
   id?: number;
@@ -15,6 +16,12 @@ export class User {
     this.email = createUserDto.email;
     this.password = createUserDto.password;
     this.name = createUserDto.name;
+  }
+
+  async hashPassword?(): Promise<string> {
+    const saltOrRounds = 10;
+    const hashedPassword = await bcrypt.hash(this.password, saltOrRounds);
+    return hashedPassword;
   }
 
   addVehicle?(createUserDto: CreateUserDto, vehicleType: VehicleType) {
