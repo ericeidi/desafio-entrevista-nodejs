@@ -7,6 +7,22 @@ import { VehicleTypeSchema } from './vehicle-type.schema';
 
 export class VehicleTypeTypeormRepository implements VehicleTypeRepository {
   constructor(private ormRepository: Repository<VehicleTypeSchema>) {}
+  async findByType(typeId: number): Promise<VehicleType> {
+    const model = await this.ormRepository.findOneBy({
+      type: typeId,
+    });
+    if (!model) {
+      return null;
+    }
+    const vehicleType: CreateVehicleTypeDto = {
+      id: model.id,
+      brand: model.brand,
+      model: model.model,
+      color: model.color,
+      type: model.type,
+    };
+    return new VehicleType(vehicleType);
+  }
   async findAll(): Promise<VehicleType[]> {
     const model: VehicleType[] = await this.ormRepository.find();
     return model;
@@ -34,7 +50,6 @@ export class VehicleTypeTypeormRepository implements VehicleTypeRepository {
   }
 
   async findById(id: number): Promise<VehicleType | null> {
-    console.log('id', id);
     const model = await this.ormRepository.findOneBy({
       id: id,
     });

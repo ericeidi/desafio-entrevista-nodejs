@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
@@ -20,7 +21,13 @@ export class UserService {
     const user = new User(createUserDto);
     const savedUser = await this.userRepository.insert(user);
     user.id = savedUser.id;
-    const vehicleType = await this.vehicleTypeRepository.findById(
+    const verifyLicensePlate = await this.vehicleRepository.findByLicensePlate(
+      createUserDto.licensePlate,
+    );
+    if (verifyLicensePlate.length !== 0) {
+      throw new BadRequestException('Placa já utilizada');
+    }
+    const vehicleType = await this.vehicleTypeRepository.findByType(
       createUserDto.vehicleTypeId,
     );
     const vehicle = user.addVehicle(createUserDto, vehicleType);
@@ -54,7 +61,7 @@ export class UserService {
       await this.userRepository.update(id, updateUserDto);
     } catch (e) {
       throw new InternalServerErrorException(
-        'Falha ao realizar atualização do tipo de veiculo',
+        'Falha ao realizar atualização do usuario',
         e,
       );
     }

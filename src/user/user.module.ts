@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UserServiceNest } from './user.service';
 import { UserController } from './user.controller';
 import { UserTypeormRepository } from 'src/@core/infra/db/user/user-typeorm.repository';
 import { UserService } from 'src/@core/application/usecase/user/user.service';
@@ -13,15 +12,30 @@ import { VehicleTypeSchema } from '../@core/infra/db/vehicle-type/vehicle-type.s
 import { VehicleTypeormRepository } from 'src/@core/infra/db/vehicle/vehicle-typeorm.repository';
 import { VehicleSchema } from 'src/@core/infra/db/vehicle/vehicle.schema';
 import { VehicleRepository } from 'src/@core/domain/repository/vehicle/vehicle.repository';
+import { ParkingLotService } from 'src/@core/application/usecase/parking-lot/parking-lot.service';
+import { CompanyRepository } from 'src/@core/domain/repository/company/company.repository';
+import { CompanyTypeormRepository } from 'src/@core/infra/db/company/company-typeorm.repository';
+import { CompanySchema } from 'src/@core/infra/db/company/company.schema';
+import { ParkingLotReservationRepository } from 'src/@core/domain/repository/parking-lot-reservation/parking-lot-reservation.repository';
+import { ParkingLotReservationTypeormRepository } from 'src/@core/infra/db/parking-lot-reservation/parking-lot-reservation-typeorm.repository';
+import { ParkingLotReservationSchema } from 'src/@core/infra/db/parking-lot-reservation/parking-lot-reservation.schema';
 
 @Module({
   controllers: [UserController],
   providers: [
-    UserServiceNest,
     {
       provide: UserTypeormRepository,
       useFactory: (dataSource: DataSource) => {
         return new UserTypeormRepository(dataSource.getRepository(UserSchema));
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
+      provide: ParkingLotReservationTypeormRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new ParkingLotReservationTypeormRepository(
+          dataSource.getRepository(ParkingLotReservationSchema),
+        );
       },
       inject: [getDataSourceToken()],
     },
@@ -44,6 +58,15 @@ import { VehicleRepository } from 'src/@core/domain/repository/vehicle/vehicle.r
       inject: [getDataSourceToken()],
     },
     {
+      provide: CompanyTypeormRepository,
+      useFactory: (dataSource: DataSource) => {
+        return new CompanyTypeormRepository(
+          dataSource.getRepository(CompanySchema),
+        );
+      },
+      inject: [getDataSourceToken()],
+    },
+    {
       provide: UserService,
       useFactory: (
         userRepository: UserRepository,
@@ -60,6 +83,25 @@ import { VehicleRepository } from 'src/@core/domain/repository/vehicle/vehicle.r
         UserTypeormRepository,
         VehicleTypeTypeormRepository,
         VehicleTypeormRepository,
+      ],
+    },
+    {
+      provide: ParkingLotService,
+      useFactory: (
+        vehicleRepository: VehicleRepository,
+        companyRepository: CompanyRepository,
+        parkingLotReservationRepository: ParkingLotReservationRepository,
+      ) => {
+        return new ParkingLotService(
+          vehicleRepository,
+          companyRepository,
+          parkingLotReservationRepository,
+        );
+      },
+      inject: [
+        VehicleTypeormRepository,
+        CompanyTypeormRepository,
+        ParkingLotReservationTypeormRepository,
       ],
     },
   ],

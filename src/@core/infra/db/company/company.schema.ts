@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { ParkingLotReservationSchema } from '../parking-lot-reservation/parking-lot-reservation.schema';
 
 @Entity()
 export class CompanySchema {
@@ -22,4 +23,10 @@ export class CompanySchema {
 
   @Column({ name: 'motorcyle_spaces' })
   motorCycleSpaces: number;
+
+  @OneToMany(
+    () => ParkingLotReservationSchema,
+    (parkingLotReservation) => parkingLotReservation.vehicle,
+  )
+  parkingLotReservation: ParkingLotReservationSchema[];
 }

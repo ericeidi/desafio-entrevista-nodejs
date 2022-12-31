@@ -7,11 +7,7 @@ import { UserSchema } from './user.schema';
 export class UserTypeormRepository implements UserRepository {
   constructor(private ormRepository: Repository<UserSchema>) {}
   async findAll(): Promise<UserSchema[]> {
-    const model = await this.ormRepository.find({
-      relations: {
-        vehicles: true,
-      },
-    });
+    const model = await this.ormRepository.find();
     return model;
   }
 
@@ -30,7 +26,7 @@ export class UserTypeormRepository implements UserRepository {
     const model = await this.ormRepository.findOneBy({
       id: id,
     });
-    await this.ormRepository.delete(model.id);
+    await this.ormRepository.delete(model);
   }
 
   async findById(id: number): Promise<any | null> {
@@ -44,7 +40,6 @@ export class UserTypeormRepository implements UserRepository {
       id: model.id,
       name: model.name,
       email: model.email,
-      vehicle: model.vehicles,
     };
     return user;
   }

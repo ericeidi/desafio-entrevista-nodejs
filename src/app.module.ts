@@ -11,6 +11,7 @@ import { VehicleSchema } from './@core/infra/db/vehicle/vehicle.schema';
 import { UserModule } from './user/user.module';
 import { UserSchema } from './@core/infra/db/user/user.schema';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ParkingLotReservationSchema } from './@core/infra/db/parking-lot-reservation/parking-lot-reservation.schema';
 
 @Module({
   imports: [
@@ -24,7 +25,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: configService.get<string>('USER'),
         password: configService.get<string>('PASSWORD'),
         database: configService.get<string>('DATABASE'),
-        entities: [CompanySchema, VehicleTypeSchema, VehicleSchema, UserSchema],
+        entities: [
+          CompanySchema,
+          VehicleTypeSchema,
+          VehicleSchema,
+          UserSchema,
+          ParkingLotReservationSchema,
+        ],
         synchronize: true,
       }),
       inject: [ConfigService],

@@ -15,4 +15,6 @@ describe('Company Unit Tests', () => {
     const company = new Company(mockInputParams);
     expect(company).toEqual(mockInputParams);
   });
+
+  it('should verify if car spaces are available', () => {});
 });

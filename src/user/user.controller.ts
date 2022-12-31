@@ -1,27 +1,45 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { UserServiceNest } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { ParkingLotService } from 'src/@core/application/usecase/parking-lot/parking-lot.service';
 import { UserService } from '../@core/application/usecase/user/user.service';
+import { CreateParkingReservationDto } from './dto/create-parking-reservation.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateParkingReservationDto } from './dto/update-parking-reservation.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('user')
 export class UserController {
   constructor(
-    private readonly userServiceNest: UserServiceNest,
     private readonly userService: UserService,
+    private readonly parkinglotService: ParkingLotService,
   ) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
+  }
+
+  @Post('start-reservation')
+  createReservation(
+    @Body() createParkingReservationDto: CreateParkingReservationDto,
+  ) {
+    this.parkinglotService.startReservation(createParkingReservationDto);
+  }
+
+  @Post('finish-reservation')
+  finishReservation(
+    @Body() updateParkingReservationDto: UpdateParkingReservationDto,
+  ) {
+    return this.parkinglotService.finishReservation(
+      updateParkingReservationDto,
+    );
   }
 
   @Get()

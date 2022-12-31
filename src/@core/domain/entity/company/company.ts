@@ -1,5 +1,6 @@
 import { CreateCompanyDto } from '../../../../company/dto/create-company.dto';
 export class Company {
+  id: number;
   name: string;
   cnpj: string;
   address: string;
@@ -8,6 +9,7 @@ export class Company {
   motorCycleSpaces: number;
 
   constructor({
+    id,
     cnpj,
     name,
     address,
@@ -15,6 +17,7 @@ export class Company {
     carSpaces,
     motorCycleSpaces,
   }: CreateCompanyDto) {
+    this.id = id || null;
     this.cnpj = cnpj;
     this.name = name;
     this.address = address;
