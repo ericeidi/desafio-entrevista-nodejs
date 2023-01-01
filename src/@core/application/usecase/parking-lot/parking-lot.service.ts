@@ -19,7 +19,7 @@ export class ParkingLotService {
   ) {
     const [vehicleInRepository] =
       await this.vehicleRepository.findByLicensePlate(
-        createParkingReservationDto.vehicle.licensePlate,
+        createParkingReservationDto.licensePlate,
       );
 
     const [parkingLot] =
@@ -27,7 +27,7 @@ export class ParkingLotService {
         vehicleInRepository,
       );
     const companyInRepository = await this.companyRepository.findByCnpj(
-      createParkingReservationDto.company.cnpj,
+      createParkingReservationDto.cnpj,
     );
 
     const parkingLotReservation = new ParkingLotReservation(
@@ -62,7 +62,7 @@ export class ParkingLotService {
   ): Promise<any> {
     const [vehicleInRepository] =
       await this.vehicleRepository.findByLicensePlate(
-        updateParkingReservationDto.vehicle.licensePlate,
+        updateParkingReservationDto.licensePlate,
       );
 
     const [parkingLot] =

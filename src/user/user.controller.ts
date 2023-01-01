@@ -8,6 +8,12 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { ParkingLotService } from 'src/@core/application/usecase/parking-lot/parking-lot.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserService } from '../@core/application/usecase/user/user.service';
@@ -15,6 +21,9 @@ import { CreateParkingReservationDto } from './dto/create-parking-reservation.dt
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateParkingReservationDto } from './dto/update-parking-reservation.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+
+@ApiBearerAuth()
+@ApiTags('User')
 @UseGuards(JwtAuthGuard)
 @Controller('user')
 export class UserController {
@@ -23,12 +32,18 @@ export class UserController {
     private readonly parkinglotService: ParkingLotService,
   ) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
-
   @Post('start-reservation')
+  @ApiOperation({ summary: 'Começar nova reserva' })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Expected response: criado nova reserva para placa do carro selecionado.',
+  })
+  @ApiResponse({
+    status: 400,
+    description:
+      'Expected response: Já existe uma reserva para placa selecionada.',
+  })
   createReservation(
     @Body() createParkingReservationDto: CreateParkingReservationDto,
   ) {
@@ -36,6 +51,16 @@ export class UserController {
   }
 
   @Patch('finish-reservation')
+  @ApiOperation({ summary: 'Finalizar uma reserva' })
+  @ApiResponse({
+    status: 200,
+    description:
+      'Expected response: finalizado reserva para placa do carro selecionado.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Expected response: Reserva já está finalizada.',
+  })
   finishReservation(
     @Body() updateParkingReservationDto: UpdateParkingReservationDto,
   ) {
@@ -44,22 +69,72 @@ export class UserController {
     );
   }
 
+  @Post()
+  @ApiOperation({ summary: 'Criar usuário' })
+  @ApiResponse({
+    status: 201,
+    description: 'Expected response: criado novo usuário.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Expected response: placa ou usuário já existente.',
+  })
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
+  }
+
   @Get()
+  @ApiOperation({ summary: 'Buscar todos usuários' })
+  @ApiResponse({
+    status: 200,
+    description: 'Expected response: Retornar usuários do sistema.',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Expected response: Falha ao buscar dados.',
+  })
   findAll() {
     return this.userService.findAll();
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Encontrar usuário por id' })
+  @ApiResponse({
+    status: 200,
+    description: 'Expected response: Retornar usuário por id.',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Expected response: Falha ao buscar dados.',
+  })
   findById(@Param('id') id: string) {
     return this.userService.findById(+id);
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Atualizar usuário por id' })
+  @ApiResponse({
+    status: 200,
+    description: 'Expected response: Usuário atualizado.',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Expected response: Falha ao buscar dados.',
+  })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Deletar usuário por id' })
+  @ApiResponse({
+    status: 200,
+    description: 'Expected response: Usuário deletado.',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Expected response: Falha ao buscar dados.',
+  })
   delete(@Param('id') id: string) {
     return this.userService.delete(+id);
   }
