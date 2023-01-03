@@ -7,11 +7,11 @@ export class ParkingLotReservationSchema {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ name: 'arrival_time', type: 'datetime', default: () => 'NOW()' })
-  arrivalTime: Date;
+  @Column({ name: 'arrival_time', type: 'datetime' })
+  arrivalTime: string;
 
   @Column({ name: 'depart_time', type: 'datetime', nullable: true })
-  departTime: Date;
+  departTime: string;
 
   @ManyToOne(() => VehicleSchema, (vehicle) => vehicle.parkingLotReservation)
   vehicle: VehicleSchema;

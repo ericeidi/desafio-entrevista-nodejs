@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { CompanyModule } from './company/company.module';
 import { UserModule } from './user/user.module';
 import { VehicleTypeModule } from './vehicle-type/vehicle-type.module';
+import { ParkingLotReservationModule } from './parking-lot-reservation/parking-lot-reservation.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { VehicleTypeModule } from './vehicle-type/vehicle-type.module';
         username: configService.get<string>('USER'),
         password: configService.get<string>('PASSWORD'),
         database: configService.get<string>('DATABASE'),
+        timezone: 'Z',
         entities: [
           CompanySchema,
           VehicleTypeSchema,
@@ -41,6 +43,7 @@ import { VehicleTypeModule } from './vehicle-type/vehicle-type.module';
     VehicleTypeModule,
     UserModule,
     AuthModule,
+    ParkingLotReservationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

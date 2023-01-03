@@ -1,15 +1,13 @@
 import { DataSource, Repository } from 'typeorm';
-import { CompanyTypeormRepository } from '../../../infra/db/company/company-typeorm.repository';
-import { CompanySchema } from '../../../infra/db/company/company.schema';
 import { DatabaseDevCredentials } from '../../../../shared/constants/database-settings';
 import { CreateUserDto } from '../../../../user/dto/create-user.dto';
 import { UserTypeormRepository } from '../../../infra/db/user/user-typeorm.repository';
 import { UserSchema } from '../../../infra/db/user/user.schema';
-import { UserService } from './user.service';
-import { VehicleTypeormRepository } from '../../../infra/db/vehicle/vehicle-typeorm.repository';
-import { VehicleTypeTypeormRepository } from '../../../infra/db/vehicle-type/vehicle-typeorm.repository';
-import { VehicleSchema } from '../../../infra/db/vehicle/vehicle.schema';
 import { VehicleTypeSchema } from '../../../infra/db/vehicle-type/vehicle-type.schema';
+import { VehicleTypeTypeormRepository } from '../../../infra/db/vehicle-type/vehicle-typeorm.repository';
+import { VehicleTypeormRepository } from '../../../infra/db/vehicle/vehicle-typeorm.repository';
+import { VehicleSchema } from '../../../infra/db/vehicle/vehicle.schema';
+import { UserService } from './user.service';
 
 const mockInputParams: CreateUserDto = {
   id: null,

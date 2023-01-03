@@ -19,6 +19,7 @@ import { ParkingLotReservationSchema } from '../../@core/infra/db/parking-lot-re
         username: configService.get<string>('USER'),
         password: configService.get<string>('PASSWORD'),
         database: configService.get<string>('DATABASE'),
+        timezone: 'Z',
         entities: [
           CompanySchema,
           VehicleTypeSchema,

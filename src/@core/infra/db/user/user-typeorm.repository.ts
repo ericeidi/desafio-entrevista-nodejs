@@ -6,9 +6,9 @@ import { UserSchema } from './user.schema';
 
 export class UserTypeormRepository implements UserRepository {
   constructor(private ormRepository: Repository<UserSchema>) {}
-  async findByUsername(username: string): Promise<any | null> {
+  async findByUsername(username: string): Promise<User | null> {
     const model = await this.ormRepository.findOneBy({
-      name: username,
+      username: username,
     });
     if (!model) {
       return null;

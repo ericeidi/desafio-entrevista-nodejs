@@ -1,8 +1,7 @@
-import { v4 as uuid } from 'uuid';
-import { Vehicle } from '../vehicle/vehicle';
+import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from '../../../../user/dto/create-user.dto';
 import { VehicleType } from '../vehicle-type/vehicle-type';
-import * as bcrypt from 'bcrypt';
+import { Vehicle } from '../vehicle/vehicle';
 
 export class User {
   id?: number;

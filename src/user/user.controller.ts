@@ -14,12 +14,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { ParkingLotService } from 'src/@core/application/usecase/parking-lot/parking-lot.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserService } from '../@core/application/usecase/user/user.service';
-import { CreateParkingReservationDto } from './dto/create-parking-reservation.dto';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateParkingReservationDto } from './dto/update-parking-reservation.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 @ApiBearerAuth()
@@ -27,47 +24,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @UseGuards(JwtAuthGuard)
 @Controller('user')
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly parkinglotService: ParkingLotService,
-  ) {}
-
-  @Post('start-reservation')
-  @ApiOperation({ summary: 'Começar nova reserva' })
-  @ApiResponse({
-    status: 200,
-    description:
-      'Expected response: criado nova reserva para placa do carro selecionado.',
-  })
-  @ApiResponse({
-    status: 400,
-    description:
-      'Expected response: Já existe uma reserva para placa selecionada.',
-  })
-  createReservation(
-    @Body() createParkingReservationDto: CreateParkingReservationDto,
-  ) {
-    this.parkinglotService.startReservation(createParkingReservationDto);
-  }
-
-  @Patch('finish-reservation')
-  @ApiOperation({ summary: 'Finalizar uma reserva' })
-  @ApiResponse({
-    status: 200,
-    description:
-      'Expected response: finalizado reserva para placa do carro selecionado.',
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Expected response: Reserva já está finalizada.',
-  })
-  finishReservation(
-    @Body() updateParkingReservationDto: UpdateParkingReservationDto,
-  ) {
-    return this.parkinglotService.finishReservation(
-      updateParkingReservationDto,
-    );
-  }
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   @ApiOperation({ summary: 'Criar usuário' })
