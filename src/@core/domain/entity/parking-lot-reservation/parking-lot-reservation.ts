@@ -24,13 +24,13 @@ export class ParkingLotReservation {
         if (this.company.carSpaces <= EMPTY_SPACES) {
           throw new BadRequestException('Vagas para carro indisponivel');
         }
-        this.company.carSpaces -= 1;
+        this.decreaseSpace();
       },
       [vehicleTypeEnum.MOTORCYCLE]: () => {
         if (this.company.motorCycleSpaces <= EMPTY_SPACES) {
           throw new BadRequestException('Vagas para moto indisponivel');
         }
-        this.company.motorCycleSpaces -= 1;
+        this.decreaseSpace();
       },
     };
     isAvailableToDecreaseSpot[this.vehicle.vehicleType.type]();
@@ -42,16 +42,24 @@ export class ParkingLotReservation {
         if (this.company.carSpaces <= EMPTY_SPACES) {
           throw new BadRequestException('Vagas para carro indisponivel');
         }
-        this.company.carSpaces += 1;
+        this.increaseSpace();
       },
       [vehicleTypeEnum.MOTORCYCLE]: () => {
         if (this.company.motorCycleSpaces <= EMPTY_SPACES) {
           throw new BadRequestException('Vagas para moto indisponivel');
         }
-        this.company.motorCycleSpaces += 1;
+        this.increaseSpace();
       },
     };
     isAvailableToIncreaseSpot[this.vehicle.vehicleType.type]();
+  }
+
+  private decreaseSpace?() {
+    this.company.motorCycleSpaces -= 1;
+  }
+
+  private increaseSpace?() {
+    this.company.carSpaces += 1;
   }
 
   addDepartTime?() {
