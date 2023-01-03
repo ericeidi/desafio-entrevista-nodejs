@@ -14,11 +14,11 @@ import { ParkingLotReservationSchema } from '../../@core/infra/db/parking-lot-re
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
-        host: configService.get<string>('HOST'),
-        port: configService.get<number>('PORT'),
-        username: configService.get<string>('USER'),
-        password: configService.get<string>('PASSWORD'),
-        database: configService.get<string>('DATABASE'),
+        host: configService.get<string>('MYSQL_HOST'),
+        port: configService.get<number>('MYSQL_PORT'),
+        username: configService.get<string>('MYSQL_USER'),
+        password: configService.get<string>('MYSQL_PASSWORD'),
+        database: configService.get<string>('MYSQL_DATABASE'),
         timezone: 'Z',
         entities: [
           CompanySchema,
