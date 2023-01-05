@@ -1,69 +1,82 @@
-![Dr Consulta](https://drconsulta.com/_next/image?url=%2Fimages%2FLogo-Dr-Consulta-Branco.png&w=128&q=100 "DrConsulta")
+# 🚗🏍️ Parking Lot API
 
-*"Salvar vidas e cuidar das pessoas porque elas não podem esperar nas filas da saúde."*
-Conheça: www.drconsulta.com
+Welcome to the Parking lot API system!
 
-## Objetivo
-O teste é destinado para vaga de Desenvolvedor Back-end entendo como o candidato efetuou a solução e o raciocinio de criação
+This system was developed in order to manage cars and motorcycles which are parked in a certain company. It comes with the following features:
 
-## Project - API
-Criar uma API REST para gerenciar um estacionamento de carros e motos.
+- Management of vehicle type information including model, license plate, brand and vehicle type.
+- Management of company information including name, cnpj, address, telephone, car spaces and motorcycle spaces.
+- Management of user including name, email and password.
+- Inclusion of one or more vehicles for an user.
+- Management of parking spaces and preventing parking in occupied spaces of a certain company.
 
-#### Stack tecnológica
+## ⌨️ Technologies
+
 - NestJS
-- TypeOrm
-- Mysql
 - Swagger
+- Typeorm
+- MySql
+- Google Cloud Platform
+- JWT Strategy
+- Date-fns
 
-#### Cadastro de estabelecimento
-Criar um cadastro da empresa com os seguintes campos:
-- Nome;
-- CNPJ;
-- Endereço;
-- Telefone;
-- Quantidade de vagas para motos;
-- Quantidade de vagas para carros.
-- 
-**Todos** os campos são de preenchimento obrigatório.
+## 🖥️ Design Pattern
+The system was produced using the Domain Driven Design Pattern (DDD)
 
-#### Cadastro de veículos
-Criar um cadastro de veículos com os seguintes campos:
-- Marca;
-- Modelo;
-- Cor;
-- Placa;
-- Tipo.
-- 
-**Todos** os campos são de preenchimento obrigatório.
+## 🌠 Starting the Application
 
-#### Funcionalidades
-- **Estabelecimento:** CRUD;
-- **Veículos:** CRUD;
-- **Controle de entrada e saída de veículos.**
+### `develop`
 
-#### Requisitos
-- Controle JWT via Handshake
-- Modelagem de dados;
-- O retorno deverá ser em formato JSON;
-- Requisições GET, POST, PUT ou DELETE, conforme a melhor prática;
-- A persistência dos dados deverá ser em banco *relacional MYSQL*
-- Criar README do projeto descrevendo as tecnologias utilizadas, chamadas dos serviços e configurações necessário para executar a aplicação.
-   
-#### Ganha mais pontos
-- Sumário da quantidade de entrada e saída;
-- Sumário da quantidade de entrada e saída de veículos por hora;
-- Criação relatórios para visão ao dono do estabelecimento;
-- Desenvolver utilizando TDD;
+Start the application using the following command:
 
-## DevOps (Diferencial)
-Efetuar deploy da nossa API no ambiente do Google Cloud Platform utilizando os serviços
+```
+npm run start:dev
+```
+Make sure you already have installed the dependencies, if not, just use the command
+```
+npm install
+```
 
-#### Serviços do GCP
-- Container Registry (Subir a imagem docker)
-- Cloud Run
+### `start`
 
-## Submissão
-Crie um fork do teste para acompanharmos o seu desenvolvimento através dos seus commits.
+Start the application using the following command:
 
-## Obrigado!
-Agradecemos sua participação no teste. Boa sorte! 😄
+```
+npm run start:dev
+```
+Make sure you already have installed the dependencies, if not, just use the command
+```
+npm install
+```
+
+### `build`
+
+Build the application using the following command:
+
+```
+npm run build
+```
+Make sure you already have installed the dependencies, if not, just use the command
+```
+npm install
+```
+
+You can also build the application using the following command one your terminal:
+```
+docker compose-up
+```
+Make sure you already have installed docker, if not go to [Docker Download](https://www.docker.com/products/docker-desktop/)
+
+## ⛅ Google Cloud Run
+
+This application is also available in the cloud and can be reached out at the following link: [Parking Lot API](https://desafio-entrevista-nodejs-backend-fmiv7zqucq-uc.a.run.app/)
+
+## 🛣️ Endpoints
+
+All the endpoints available in the app can be accessed with the swagger API at the following link: 
+
+### `develop`
+[Swagger Doc Dev](http://localhost:3000/api)
+### `production`
+[Swagger Doc Prod](https://desafio-entrevista-nodejs-backend-fmiv7zqucq-uc.a.run.app/api)
+
