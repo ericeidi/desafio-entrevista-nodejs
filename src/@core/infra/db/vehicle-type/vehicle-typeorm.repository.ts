@@ -3,7 +3,7 @@ import { VehicleTypeRepository } from '../../../../@core/domain/repository/vehic
 import { CreateVehicleTypeDto } from '../../../../vehicle-type/dto/create-vehicle-type.dto';
 import { UpdateVehicleTypeDto } from '../../../../vehicle-type/dto/update-vehicle-type.dto';
 import { Repository } from 'typeorm';
-import { VehicleTypeSchema } from './vehicle-type.schema';
+import { VehicleTypeSchema } from 'src/@core/infra/db/vehicle-type/vehicle-type.schema';
 
 export class VehicleTypeTypeormRepository implements VehicleTypeRepository {
   constructor(private ormRepository: Repository<VehicleTypeSchema>) {}

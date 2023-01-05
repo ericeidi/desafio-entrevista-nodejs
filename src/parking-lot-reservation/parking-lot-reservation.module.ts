@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { getDataSourceToken } from '@nestjs/typeorm';
+import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { ParkingLotReservationService } from 'src/@core/application/usecase/parking-lot-reservation/parking-lot-reservation.service';
 import { CompanyRepository } from 'src/@core/domain/repository/company/company.repository';
 import { ParkingLotReservationRepository } from 'src/@core/domain/repository/parking-lot-reservation/parking-lot-reservation.repository';
@@ -15,6 +15,9 @@ import { DataSource } from 'typeorm';
 import { ParkingLotReservationController } from './parking-lot-reservation.controller';
 
 @Module({
+  imports: [
+    TypeOrmModule.forFeature([CompanySchema, ParkingLotReservationSchema]),
+  ],
   controllers: [ParkingLotReservationController],
   providers: [
     {

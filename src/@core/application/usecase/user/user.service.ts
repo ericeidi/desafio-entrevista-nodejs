@@ -19,7 +19,7 @@ export class UserService {
     if (userAlreadyExists) {
       throw new BadRequestException('Usuário já existe');
     }
-    await this.userRepository.insert(user);
+    return await this.userRepository.insert(user);
   }
 
   async findAll() {

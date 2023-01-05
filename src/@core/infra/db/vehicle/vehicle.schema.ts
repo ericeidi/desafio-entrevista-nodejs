@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { ParkingLotReservationSchema } from '../parking-lot-reservation/parking-lot-reservation.schema';
 import { UserSchema } from '../user/user.schema';
-import { VehicleTypeSchema } from '../vehicle-type/vehicle-type.schema';
+import { VehicleTypeSchema } from '../../../../@core/infra/db/vehicle-type/vehicle-type.schema';
 
 @Entity()
 export class VehicleSchema {

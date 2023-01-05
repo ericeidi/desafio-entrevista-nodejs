@@ -1,18 +1,18 @@
-import { BadRequestException } from '@nestjs/common/exceptions';
+import { BadRequestException } from '@nestjs/common';
 import { vehicleTypeEnum } from '../../../../shared/constants/vehicle-type.enum';
 import { ConvertUtc } from '../../../../shared/utils/convert-utc';
-import { VehicleSchema } from '../../../infra/db/vehicle/vehicle.schema';
 import { Company } from '../company/company';
+import { Vehicle } from '../vehicle/vehicle';
 
 const EMPTY_SPACES = 0;
 
 export class ParkingLotReservation {
   id: number;
   company: Company;
-  vehicle: VehicleSchema;
+  vehicle: Vehicle;
   departTime: string;
   arrivalTime: string;
-  constructor(company: Company, vehicle: VehicleSchema, id?: number) {
+  constructor(company: Company, vehicle: Vehicle, id?: number) {
     this.id = id || null;
     this.company = company;
     this.vehicle = vehicle;
@@ -24,16 +24,16 @@ export class ParkingLotReservation {
         if (this.company.carSpaces <= EMPTY_SPACES) {
           throw new BadRequestException('Vagas para carro indisponivel');
         }
-        this.decreaseSpace();
+        return (this.company.carSpaces -= 1);
       },
       [vehicleTypeEnum.MOTORCYCLE]: () => {
         if (this.company.motorCycleSpaces <= EMPTY_SPACES) {
           throw new BadRequestException('Vagas para moto indisponivel');
         }
-        this.decreaseSpace();
+        return (this.company.motorCycleSpaces -= 1);
       },
     };
-    isAvailableToDecreaseSpot[this.vehicle.vehicleType.type]();
+    return isAvailableToDecreaseSpot[this.vehicle.vehicleType.type]();
   }
 
   handleIncreaseSpace?() {
@@ -42,24 +42,16 @@ export class ParkingLotReservation {
         if (this.company.carSpaces <= EMPTY_SPACES) {
           throw new BadRequestException('Vagas para carro indisponivel');
         }
-        this.increaseSpace();
+        return (this.company.carSpaces += 1);
       },
       [vehicleTypeEnum.MOTORCYCLE]: () => {
         if (this.company.motorCycleSpaces <= EMPTY_SPACES) {
           throw new BadRequestException('Vagas para moto indisponivel');
         }
-        this.increaseSpace();
+        return (this.company.motorCycleSpaces += 1);
       },
     };
-    isAvailableToIncreaseSpot[this.vehicle.vehicleType.type]();
-  }
-
-  private decreaseSpace?() {
-    this.company.motorCycleSpaces -= 1;
-  }
-
-  private increaseSpace?() {
-    this.company.carSpaces += 1;
+    return isAvailableToIncreaseSpot[this.vehicle.vehicleType.type]();
   }
 
   addDepartTime?() {

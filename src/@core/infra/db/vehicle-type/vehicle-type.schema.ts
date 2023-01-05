@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { VehicleSchema } from '../vehicle/vehicle.schema';
+import { VehicleSchema } from '../../../../@core/infra/db/vehicle/vehicle.schema';
 
 @Entity()
 export class VehicleTypeSchema {

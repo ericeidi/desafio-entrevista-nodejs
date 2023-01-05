@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { getDataSourceToken } from '@nestjs/typeorm';
+import { getDataSourceToken, TypeOrmModule } from '@nestjs/typeorm';
 import { VehicleService } from 'src/@core/application/usecase/vehicle/vehicle.service';
 import { UserRepository } from 'src/@core/domain/repository/user/user.repository';
 import { VehicleTypeRepository } from 'src/@core/domain/repository/vehicle-type/vehicle-type.repository';
@@ -14,6 +14,7 @@ import { DataSource } from 'typeorm';
 import { VehicleController } from './vehicle.controller';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([VehicleSchema, VehicleTypeSchema])],
   controllers: [VehicleController],
   providers: [
     {

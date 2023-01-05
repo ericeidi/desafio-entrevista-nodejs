@@ -1,4 +1,3 @@
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from '../user/user';
 import { VehicleType } from '../vehicle-type/vehicle-type';
 
@@ -12,9 +11,4 @@ export class Vehicle {
     this.user = user;
     this.vehicleType = vehicleType;
   }
-
-  // addVehicle?(createUserDto: CreateUserDto, vehicleType: VehicleType) {
-  //   const vehicle = new Vehicle(createUserDto.licensePlate, this, vehicleType);
-  //   return vehicle;
-  // }
 }
