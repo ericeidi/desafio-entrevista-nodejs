@@ -63,7 +63,7 @@ npm install
 
 You can also build the application using the following command one your terminal:
 ```
-docker compose-up
+docker compose up --build
 ```
 Make sure you already have installed docker, if not go to [Docker Download](https://www.docker.com/products/docker-desktop/)
 
