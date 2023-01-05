@@ -15,8 +15,8 @@ import {
 } from '@nestjs/swagger';
 import { ParkingLotReservationService } from 'src/@core/application/usecase/parking-lot-reservation/parking-lot-reservation.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { CreateParkingReservationDto } from 'src/user/dto/create-parking-reservation.dto';
-import { UpdateParkingReservationDto } from 'src/user/dto/update-parking-reservation.dto';
+import { CreateParkingReservationDto } from 'src/parking-lot-reservation/dto/create-parking-reservation.dto';
+import { UpdateParkingReservationDto } from 'src/parking-lot-reservation/dto/update-parking-reservation.dto';
 import { FindReservationByCompanyDto } from './dto/find-reservation-company.dto';
 import { FindDepartQuantityReservationDto } from './dto/find-arrival-reservation-quantity.dto';
 import { FindArrivalQuantityReservationDto } from './dto/find-depart-reservation-quantity.dto';
@@ -30,16 +30,16 @@ export class ParkingLotReservationController {
     private readonly parkingLotReservationService: ParkingLotReservationService,
   ) {}
   @Post('start-reservation')
-  @ApiOperation({ summary: 'Começar nova reserva' })
+  @ApiOperation({ summary: 'start new reservation' })
   @ApiResponse({
     status: 200,
     description:
-      'Expected response: criado nova reserva para placa do carro selecionado.',
+      'Expected response: created new reservation for selected car license plate',
   })
   @ApiResponse({
     status: 400,
     description:
-      'Expected response: Já existe uma reserva para placa selecionada.',
+      'Expected response: there is already a reservation for selected board',
   })
   createReservation(
     @Body() createParkingReservationDto: CreateParkingReservationDto,
@@ -50,15 +50,15 @@ export class ParkingLotReservationController {
   }
 
   @Patch('finish-reservation')
-  @ApiOperation({ summary: 'Finalizar uma reserva' })
+  @ApiOperation({ summary: 'finish a reservation' })
   @ApiResponse({
     status: 200,
     description:
-      'Expected response: finalizado reserva para placa do carro selecionado.',
+      'Expected response: finished reservation for selected car license plate',
   })
   @ApiResponse({
     status: 400,
-    description: 'Expected response: Reserva já está finalizada.',
+    description: 'Expected response: reservation is already finalized',
   })
   finishReservation(
     @Body() updateParkingReservationDto: UpdateParkingReservationDto,
@@ -69,29 +69,28 @@ export class ParkingLotReservationController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Encontrar todas as reservas' })
+  @ApiOperation({ summary: 'find all bookings' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Listagem de reservas.',
+    description: 'Expected response: booking listing',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao encontrar reservas.',
+    description: 'Expected response: failed to fetch data',
   })
   findAll() {
     return this.parkingLotReservationService.findAllReservations();
   }
 
   @Get('find-reservation-by-company')
-  @ApiOperation({ summary: 'Encontrar reserva por estabelecimento.' })
+  @ApiOperation({ summary: 'find reservation by property' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Listagem de reserva por estabelecimento.',
+    description: 'Expected response: booking list by establishment',
   })
   @ApiResponse({
     status: 500,
-    description:
-      'Expected response: Falha ao encontrar reserva por estabelecimento.',
+    description: 'Expected response: failed to fetch data',
   })
   findByCompany(@Query() query: FindReservationByCompanyDto) {
     return this.parkingLotReservationService.findReservationByCompany(
@@ -101,17 +100,16 @@ export class ParkingLotReservationController {
 
   @Get('find-arrival-quantity-by-hour')
   @ApiOperation({
-    summary: 'Encontrar quantidade de entrada de veiculos por hora de entrada.',
+    summary: 'find amount of vehicle input per input time',
   })
   @ApiResponse({
     status: 200,
     description:
-      'Expected response: Listagem de quantidade de entrada de veiculos por hora de entrada.',
+      'Expected response: List of vehicle entry quantity by entry time',
   })
   @ApiResponse({
     status: 500,
-    description:
-      'Expected response: Falha ao encontrar quantidade de entrada de veiculos por hora de entrada.',
+    description: 'Expected response: failed to fetch data',
   })
   findArrivalReservationQuantityByHour(
     @Query() query: FindArrivalQuantityReservationDto,
@@ -123,17 +121,16 @@ export class ParkingLotReservationController {
 
   @Get('find-depart-quantity-by-hour')
   @ApiOperation({
-    summary: 'Encontrar quantidade de entrada de veiculos por hora de saida.',
+    summary: 'find quantity of incoming vehicles per outgoing hour',
   })
   @ApiResponse({
     status: 200,
     description:
-      'Expected response: Listagem de quantidade de entrada de veiculos por hora de saida.',
+      'Expected response: list of vehicle entry quantity by departure time',
   })
   @ApiResponse({
     status: 500,
-    description:
-      'Expected response: Falha ao encontrar quantidade de entrada de veiculos por hora de saida.',
+    description: 'Expected response: failed to fetch data',
   })
   findDepartReservationQuantityByHour(
     @Query() query: FindDepartQuantityReservationDto,

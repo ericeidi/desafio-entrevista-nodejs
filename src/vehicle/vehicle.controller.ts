@@ -26,70 +26,70 @@ import { UpdateVehicleDto } from './dto/update-vehicle.dto';
 export class VehicleController {
   constructor(private readonly vehicleService: VehicleService) {}
   @Post()
-  @ApiOperation({ summary: 'Criar um veiculo para um usuário' })
+  @ApiOperation({ summary: 'create a vehicle for a user' })
   @ApiResponse({
     status: 201,
-    description: 'Expected response: criado novo veículo.',
+    description: 'Expected response: created new vehicle',
   })
   @ApiResponse({
     status: 400,
-    description: 'Expected response: placa ou usuário já existente.',
+    description: 'Expected response: existing board or user',
   })
   create(@Body() createVehicleDto: CreateVehicleDto) {
     return this.vehicleService.create(createVehicleDto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Buscar todos veículos' })
+  @ApiOperation({ summary: 'search all vehicles' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Retornar veículos do sistema.',
+    description: 'Expected response: return vehicles from the system',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao buscar dados.',
+    description: 'Expected response: failed to fetch data',
   })
   findAll() {
     return this.vehicleService.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Encontrar veículo por id' })
+  @ApiOperation({ summary: 'find vehicle by id' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Retornar veículo por id.',
+    description: 'Expected response: return vehicle by id',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao buscar dados.',
+    description: 'Expected response: failed to fetch data',
   })
   findById(@Param('id') id: string) {
     return this.vehicleService.findById(+id);
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Atualizar veículo por id' })
+  @ApiOperation({ summary: 'update vehicle by id' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: veículo atualizado.',
+    description: 'Expected response: veículo atualizado',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao buscar dados.',
+    description: 'Expected response: failed to fetch data',
   })
   update(@Param('id') id: number, @Body() updateVehicleDto: UpdateVehicleDto) {
     return this.vehicleService.update(id, updateVehicleDto);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Deletar veículo por id' })
+  @ApiOperation({ summary: 'delete vehicle by id' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: veículo deletado.',
+    description: 'Expected response: veículo deletado',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao buscar dados.',
+    description: 'Expected response: failed to fetch data',
   })
   delete(@Param('id') id: string) {
     return this.vehicleService.delete(+id);

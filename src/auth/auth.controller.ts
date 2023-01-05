@@ -1,8 +1,8 @@
-import { Controller, Request, Post, UseGuards } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { Controller, Post, UseGuards } from '@nestjs/common';
+import { Body } from '@nestjs/common/decorators';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Body } from '@nestjs/common/decorators';
+import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 
 @ApiTags('Auth')
@@ -12,14 +12,14 @@ export class AuthController {
 
   @UseGuards(AuthGuard('local'))
   @Post('/login')
-  @ApiOperation({ summary: 'Autenticar usuário' })
+  @ApiOperation({ summary: 'authenticate user' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Usuário autenticado.',
+    description: 'Expected response: authenticated user.',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Algo deu errado.',
+    description: 'Expected response: something went wrong.',
   })
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);

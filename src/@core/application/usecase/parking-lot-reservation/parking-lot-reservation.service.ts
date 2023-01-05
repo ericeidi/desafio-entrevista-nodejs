@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common';
 import { CompanyRepository } from 'src/@core/domain/repository/company/company.repository';
-import { CreateParkingReservationDto } from 'src/user/dto/create-parking-reservation.dto';
-import { UpdateParkingReservationDto } from 'src/user/dto/update-parking-reservation.dto';
+import { CreateParkingReservationDto } from 'src/parking-lot-reservation/dto/create-parking-reservation.dto';
+import { UpdateParkingReservationDto } from 'src/parking-lot-reservation/dto/update-parking-reservation.dto';
 import { ParkingLotReservationRepository } from '../../../domain/repository/parking-lot-reservation/parking-lot-reservation.repository';
 import { VehicleRepository } from '../../../domain/repository/vehicle/vehicle.repository';
 import { Company } from '../../../domain/entity/company/company';

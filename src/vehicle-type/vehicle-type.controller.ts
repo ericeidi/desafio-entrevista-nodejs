@@ -27,58 +27,56 @@ export class VehicleTypeController {
   constructor(private readonly vehicleTypeService: VehicleTypeService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Criar novo tipo de veiculo' })
+  @ApiOperation({ summary: 'create new vehicle type' })
   @ApiResponse({
     status: 201,
-    description: 'Expected response: Criado novo tipo de veiculo.',
+    description: 'Expected response: created new vehicle type',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao criar tipo de veiculo.',
+    description: 'Expected response: failed to post data',
   })
   create(@Body() createVehicleTypeDto: CreateVehicleTypeDto) {
     return this.vehicleTypeService.create(createVehicleTypeDto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Buscar tipos de veiculos' })
+  @ApiOperation({ summary: 'search vehicle types' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: listagem de todos os tipos de veículos.',
+    description: 'Expected response: list of all types of vehicles',
   })
   @ApiResponse({
     status: 500,
-    description:
-      'Expected response: falha ao buscar lista de tipos de veiculos.',
+    description: 'Expected response: failed to fetch data',
   })
   findAll() {
     return this.vehicleTypeService.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Buscar tipo de veiculo por id' })
+  @ApiOperation({ summary: 'search vehicle type by id' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Retornar tipo de veiculo por id.',
+    description: 'Expected response: return vehicle type by id',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao buscar tipo de veiculo por id.',
+    description: 'Expected response: failed to fetch data',
   })
   findById(@Param('id') id: string) {
     return this.vehicleTypeService.findById(+id);
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Atualizar um tipo de veiculo' })
+  @ApiOperation({ summary: 'update a vehicle type' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Tipo de veiculo atualizado com sucesso.',
+    description: 'Expected response: vehicle type updated successfully',
   })
   @ApiResponse({
     status: 500,
-    description:
-      'Expected response: falha ao buscar lista de tipos de veiculos.',
+    description: 'Expected response: failed to patch data',
   })
   update(
     @Param('id') id: string,
@@ -88,15 +86,14 @@ export class VehicleTypeController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Deletar um tipo de veiculo' })
+  @ApiOperation({ summary: 'delete a vehicle type' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Tipo de veiculo deletado.',
+    description: 'Expected response: deleted vehicle type',
   })
   @ApiResponse({
     status: 500,
-    description:
-      'Expected response: falha ao deletar tipo de veiculo deletado.',
+    description: 'Expected response: failed to fetch data',
   })
   delete(@Param('id') id: string) {
     return this.vehicleTypeService.delete(+id);

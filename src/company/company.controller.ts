@@ -27,56 +27,56 @@ export class CompanyController {
   constructor(private readonly companyService: CompanyService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Criar novo estabelecimento' })
+  @ApiOperation({ summary: 'create new company' })
   @ApiResponse({
     status: 201,
-    description: 'Expected response: Criado novo estabelecimento.',
+    description: 'Expected response: created new company',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao criar estabelecimento.',
+    description: 'Expected response: failed to create company',
   })
   create(@Body() createCompanyDto: CreateCompanyDto) {
     return this.companyService.create(createCompanyDto);
   }
 
   @Get()
-  @ApiOperation({ summary: 'Encontrar todos estabelecimentos' })
+  @ApiOperation({ summary: 'find all companies' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Listagem de estabelecimentos.',
+    description: 'Expected response: list of companies',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao listar estabelecimentos.',
+    description: 'Expected response: failed to list companies',
   })
   findAll() {
     return this.companyService.findAll();
   }
 
   @Get(':cnpj')
-  @ApiOperation({ summary: 'Encontrar um estabelecimento' })
+  @ApiOperation({ summary: 'find an company' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Listagem de um estabelecimento.',
+    description: 'Expected response: list of a company',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao listar um estabelecimento.',
+    description: 'Expected response: failed to list an company',
   })
   findByCnpj(@Param('cnpj') cnpj: string) {
     return this.companyService.findByCnpj(cnpj);
   }
 
   @Patch(':cnpj')
-  @ApiOperation({ summary: 'Atualizar estabelecimento' })
+  @ApiOperation({ summary: 'update company' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Estabelecimento atualizado.',
+    description: 'Expected response: updated company',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao atualizar estabelecimento.',
+    description: 'Expected response: failed to update property',
   })
   update(
     @Param('cnpj') cnpj: string,
@@ -86,14 +86,14 @@ export class CompanyController {
   }
 
   @Delete(':cnpj')
-  @ApiOperation({ summary: 'Deletar um estabelecimento' })
+  @ApiOperation({ summary: 'delete an company' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: Estabelecimento deletado.',
+    description: 'Expected response: company deleted',
   })
   @ApiResponse({
     status: 500,
-    description: 'Expected response: Falha ao deletar estabelecimento.',
+    description: 'Expected response: failed to delete company',
   })
   delete(@Param('cnpj') cnpj: string) {
     return this.companyService.delete(cnpj);
