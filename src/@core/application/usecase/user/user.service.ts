@@ -4,26 +4,14 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { UserRepository } from '../../../../@core/domain/repository/user/user.repository';
-import { VehicleTypeRepository } from '../../../../@core/domain/repository/vehicle-type/vehicle-type.repository';
-import { VehicleRepository } from '../../../../@core/domain/repository/vehicle/vehicle.repository';
 import { CreateUserDto } from '../../../../user/dto/create-user.dto';
 import { UpdateUserDto } from '../../../../user/dto/update-user.dto';
 import { User } from '../../../domain/entity/user/user';
 
 export class UserService {
-  constructor(
-    private readonly userRepository: UserRepository,
-    private readonly vehicleTypeRepository: VehicleTypeRepository,
-    private readonly vehicleRepository: VehicleRepository,
-  ) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    const verifyLicensePlate = await this.vehicleRepository.findByLicensePlate(
-      createUserDto.licensePlate,
-    );
-    if (verifyLicensePlate.length !== 0) {
-      throw new BadRequestException('Placa já utilizada');
-    }
     const user = new User(createUserDto);
     const userAlreadyExists = await this.userRepository.findByUsername(
       user.name,
@@ -31,15 +19,7 @@ export class UserService {
     if (userAlreadyExists) {
       throw new BadRequestException('Usuário já existe');
     }
-    const savedUser = await this.userRepository.insert(user);
-    user.id = savedUser.id;
-    const vehicleType = await this.vehicleTypeRepository.findByType(
-      createUserDto.vehicleTypeId,
-    );
-    const vehicle = user.addVehicle(createUserDto, vehicleType);
-    await this.vehicleRepository.insert(vehicle);
-
-    return savedUser;
+    await this.userRepository.insert(user);
   }
 
   async findAll() {

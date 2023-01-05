@@ -22,9 +22,4 @@ export class User {
     const hashedPassword = await bcrypt.hash(this.password, saltOrRounds);
     return hashedPassword;
   }
-
-  addVehicle?(createUserDto: CreateUserDto, vehicleType: VehicleType) {
-    const vehicle = new Vehicle(createUserDto.licensePlate, this, vehicleType);
-    return vehicle;
-  }
 }

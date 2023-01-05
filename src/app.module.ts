@@ -13,6 +13,7 @@ import { CompanyModule } from './company/company.module';
 import { UserModule } from './user/user.module';
 import { VehicleTypeModule } from './vehicle-type/vehicle-type.module';
 import { ParkingLotReservationModule } from './parking-lot-reservation/parking-lot-reservation.module';
+import { VehicleModule } from './vehicle/vehicle.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { ParkingLotReservationModule } from './parking-lot-reservation/parking-l
     UserModule,
     AuthModule,
     ParkingLotReservationModule,
+    VehicleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

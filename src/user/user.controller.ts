@@ -34,7 +34,7 @@ export class UserController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Expected response: placa ou usuário já existente.',
+    description: 'Expected response: usuário já existente.',
   })
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
