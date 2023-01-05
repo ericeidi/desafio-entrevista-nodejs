@@ -42,7 +42,7 @@ npm install
 Start the application using the following command:
 
 ```
-npm run start:dev
+npm run start
 ```
 Make sure you already have installed the dependencies, if not, just use the command
 ```
