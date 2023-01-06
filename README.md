@@ -67,18 +67,18 @@ Make sure you already have installed docker, if not go to [Docker Download](http
 
 ## ⛅ Google Cloud Platform
 
-Push:
+### `push`
 ```
 docker tag desafio-entrevista-nodejs_backend gcr.io/desafio-nodejs/desafio-entrevista-nodejs_backend
 docker push gcr.io/desafio-nodejs/desafio-entrevista-nodejs_backend
 ```
 
-Deploy:
+### `deploy`
 ```
 gcloud run deploy desafio-entrevista-nodejs-backend --image gcr.io/desafio-nodejs/desafio-entrevista-nodejs_backend --port=3000 --set-env-vars MYSQL_HOST=containers-us-west-190.railway.app,MYSQL_PORT=8062,MYSQL_USER=root,MYSQL_PASSWORD=7rwEffKFEFVljHANbrMC,MYSQL_DATABASE=railway
 ```
 
-This application is also available in the cloud and can be reached out at the following link: [Parking Lot API](https://desafio-entrevista-nodejs-backend-fmiv7zqucq-uc.a.run.app/)
+This application can be reached out at the following link: [Parking Lot API](https://desafio-entrevista-nodejs-backend-fmiv7zqucq-uc.a.run.app/)
 
 ## 🛣️ Endpoints
 
