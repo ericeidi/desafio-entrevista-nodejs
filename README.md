@@ -6,7 +6,7 @@ This system was developed in order to manage cars and motorcycles which are park
 
 - Management of vehicle type information including model, license plate, brand and vehicle type.
 - Management of company information including name, cnpj, address, telephone, car spaces and motorcycle spaces.
-- Management of user including name, email and password.
+- Management of user including name, email, username and password.
 - Inclusion of one or more vehicles for an user.
 - Management of parking spaces and preventing parking in occupied spaces of a certain company.
 
@@ -17,8 +17,6 @@ This system was developed in order to manage cars and motorcycles which are park
 - Typeorm
 - MySql
 - Google Cloud Platform
-- JWT Strategy
-- Date-fns
 
 ## 🖥️ Design Pattern
 The system was produced using the Domain Driven Design Pattern (DDD)
