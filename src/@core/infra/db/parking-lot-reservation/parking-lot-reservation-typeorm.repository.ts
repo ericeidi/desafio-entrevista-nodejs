@@ -11,17 +11,18 @@ export class ParkingLotReservationTypeormRepository
   implements ParkingLotReservationRepository
 {
   constructor(private ormRepository: Repository<ParkingLotReservationSchema>) {}
-  async findAllReservations(): Promise<[ParkingLotReservation[], number]> {
-    const responseParkingLot = await this.ormRepository.findAndCount({
+  async findAllReservations(): Promise<ParkingLotReservation[]> {
+    const responseParkingLot = await this.ormRepository.find({
       relations: ['vehicle', 'vehicle.user', 'company'],
     });
+
     return responseParkingLot;
   }
 
   async findReservationByCompany(
     companyId: number,
-  ): Promise<[ParkingLotReservation[], number]> {
-    const responseParkingLot = await this.ormRepository.findAndCount({
+  ): Promise<ParkingLotReservation[]> {
+    const responseParkingLot = await this.ormRepository.find({
       relations: ['vehicle', 'vehicle.user', 'company'],
       where: {
         company: {

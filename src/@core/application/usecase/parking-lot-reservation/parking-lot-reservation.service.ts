@@ -8,6 +8,7 @@ import { Company } from '../../../domain/entity/company/company';
 import { ParkingLotReservation } from '../../../domain/entity/parking-lot-reservation/parking-lot-reservation';
 import { FindArrivalQuantityReservationDto } from '../../../../parking-lot-reservation/dto/find-depart-reservation-quantity.dto';
 import { FindDepartQuantityReservationDto } from '../../../../parking-lot-reservation/dto/find-arrival-reservation-quantity.dto';
+import { ParkingLotSpaceCounter } from '../../../domain/entity/parking-lot-reservation/parking-lot-space-counter';
 
 export class ParkingLotReservationService {
   constructor(
@@ -89,26 +90,38 @@ export class ParkingLotReservationService {
     await this.parkingLotReservationRepository.update(parkingLotReservation);
   }
 
-  findAllReservations() {
-    return this.parkingLotReservationRepository.findAllReservations();
+  async findAllReservations() {
+    const reservations =
+      await this.parkingLotReservationRepository.findAllReservations();
+    const spaceCounter = new ParkingLotSpaceCounter();
+    spaceCounter.handleCountArrivalSpace(reservations);
+    spaceCounter.handleCountDepartSpace(reservations);
+    return [reservations, spaceCounter];
   }
 
-  findReservationByCompany(companyId: number) {
-    return this.parkingLotReservationRepository.findReservationByCompany(
-      companyId,
-    );
+  async findReservationByCompany(companyId: number) {
+    const reservations =
+      await this.parkingLotReservationRepository.findReservationByCompany(
+        companyId,
+      );
+    const spaceCounter = new ParkingLotSpaceCounter();
+    spaceCounter.handleCountArrivalSpace(reservations);
+    spaceCounter.handleCountDepartSpace(reservations);
+    return [reservations, spaceCounter];
   }
 
-  findArrivalReservationQuantityByHour(
+  async findArrivalReservationQuantityByHour(
     query: FindArrivalQuantityReservationDto,
   ) {
-    return this.parkingLotReservationRepository.findArrivalReservationQuantityByHour(
+    return await this.parkingLotReservationRepository.findArrivalReservationQuantityByHour(
       query,
     );
   }
 
-  findDepartReservationQuantityByHour(query: FindDepartQuantityReservationDto) {
-    return this.parkingLotReservationRepository.findDepartReservationQuantityByHour(
+  async findDepartReservationQuantityByHour(
+    query: FindDepartQuantityReservationDto,
+  ) {
+    return await this.parkingLotReservationRepository.findDepartReservationQuantityByHour(
       query,
     );
   }

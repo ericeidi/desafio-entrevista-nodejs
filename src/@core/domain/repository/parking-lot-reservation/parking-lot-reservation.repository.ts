@@ -8,10 +8,8 @@ export interface ParkingLotReservationRepository {
   insert(parkingLotReservation: ParkingLotReservation): Promise<void>;
   update(parkingLotReservation: ParkingLotReservation): Promise<void>;
   findByVehicle(vehicle: Vehicle): Promise<ParkingLotReservationSchema[]>;
-  findAllReservations(): Promise<[ParkingLotReservation[], number]>;
-  findReservationByCompany(
-    companyId: number,
-  ): Promise<[ParkingLotReservation[], number]>;
+  findAllReservations(): Promise<ParkingLotReservation[]>;
+  findReservationByCompany(companyId: number): Promise<ParkingLotReservation[]>;
   findDepartReservationQuantityByHour(
     query: FindDepartQuantityReservationDto,
   ): Promise<[ParkingLotReservation[], number]>;
