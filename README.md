@@ -21,6 +21,9 @@ This system was developed in order to manage cars and motorcycles which are park
 ## 🖥️ Design Pattern
 The system was produced using the Domain Driven Design Pattern (DDD)
 
+## 🏁 Project Diagrams
+- [Diagrams](https://miro.com/app/board/uXjVP2VM45M=/)
+
 ## 🌠 Starting the Application
 
 ### `develop`
