@@ -16,7 +16,11 @@ import { ParkingLotReservationController } from './parking-lot-reservation.contr
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([CompanySchema, ParkingLotReservationSchema]),
+    TypeOrmModule.forFeature([
+      CompanySchema,
+      ParkingLotReservationSchema,
+      VehicleSchema,
+    ]),
   ],
   controllers: [ParkingLotReservationController],
   providers: [

@@ -25,6 +25,7 @@ const mockMotorcycleVehicleType: VehicleType = {
 const mockUser: CreateUserDto = {
   id: 1,
   name: 'joao',
+  username: 'joao123',
   email: 'joao@gmail.com',
   password: '123',
 };

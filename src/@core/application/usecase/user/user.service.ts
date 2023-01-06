@@ -14,7 +14,7 @@ export class UserService {
   async create(createUserDto: CreateUserDto) {
     const user = new User(createUserDto);
     const userAlreadyExists = await this.userRepository.findByUsername(
-      user.name,
+      user.username,
     );
     if (userAlreadyExists) {
       throw new BadRequestException('Usuário já existe');

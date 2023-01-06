@@ -7,19 +7,13 @@ import { UserSchema } from './user.schema';
 export class UserTypeormRepository implements UserRepository {
   constructor(private ormRepository: Repository<UserSchema>) {}
   async findByUsername(username: string): Promise<User | null> {
-    const model = await this.ormRepository.findOneBy({
+    const model: User = await this.ormRepository.findOneBy({
       username: username,
     });
     if (!model) {
       return null;
     }
-    const user = {
-      id: model.id,
-      name: model.name,
-      password: model.password,
-      email: model.email,
-    };
-    return user;
+    return model;
   }
   async findAll(): Promise<UserSchema[]> {
     const model = await this.ormRepository.find();

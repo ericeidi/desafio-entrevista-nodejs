@@ -1,6 +1,6 @@
-import { ParkingLotReservation } from 'src/@core/domain/entity/parking-lot-reservation/parking-lot-reservation';
-import { Vehicle } from 'src/@core/domain/entity/vehicle/vehicle';
-import { FormatBetweenDates } from 'src/shared/utils/format-between-dates-typeorm';
+import { ParkingLotReservation } from '../../../../@core/domain/entity/parking-lot-reservation/parking-lot-reservation';
+import { Vehicle } from '../../../../@core/domain/entity/vehicle/vehicle';
+import { FormatBetweenDates } from '../../../../shared/utils/format-between-dates-typeorm';
 import { Repository } from 'typeorm';
 import { FindDepartQuantityReservationDto } from '../../../../parking-lot-reservation/dto/find-arrival-reservation-quantity.dto';
 import { FindArrivalQuantityReservationDto } from '../../../../parking-lot-reservation/dto/find-depart-reservation-quantity.dto';

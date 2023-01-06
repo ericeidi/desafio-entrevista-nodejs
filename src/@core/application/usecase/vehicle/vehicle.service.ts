@@ -3,12 +3,12 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { Vehicle } from 'src/@core/domain/entity/vehicle/vehicle';
-import { UserRepository } from 'src/@core/domain/repository/user/user.repository';
-import { VehicleTypeRepository } from 'src/@core/domain/repository/vehicle-type/vehicle-type.repository';
-import { VehicleRepository } from 'src/@core/domain/repository/vehicle/vehicle.repository';
-import { CreateVehicleDto } from 'src/vehicle/dto/create-vehicle.dto';
-import { UpdateVehicleDto } from 'src/vehicle/dto/update-vehicle.dto';
+import { Vehicle } from '../../../../@core/domain/entity/vehicle/vehicle';
+import { UserRepository } from '../../../../@core/domain/repository/user/user.repository';
+import { VehicleTypeRepository } from '../../../../@core/domain/repository/vehicle-type/vehicle-type.repository';
+import { VehicleRepository } from '../../../../@core/domain/repository/vehicle/vehicle.repository';
+import { CreateVehicleDto } from '../../../../vehicle/dto/create-vehicle.dto';
+import { UpdateVehicleDto } from '../../../../vehicle/dto/update-vehicle.dto';
 
 export class VehicleService {
   constructor(
@@ -42,7 +42,7 @@ export class VehicleService {
       user,
       vehicleType,
     );
-    await this.vehicleRepository.insert(createdVehicle);
+    return await this.vehicleRepository.insert(createdVehicle);
   }
 
   async findAll() {

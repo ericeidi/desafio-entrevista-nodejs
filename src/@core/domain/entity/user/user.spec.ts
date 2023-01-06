@@ -4,6 +4,7 @@ import { User } from './User';
 const mockInputParams: CreateUserDto = {
   id: null,
   name: 'joao',
+  username: 'joao123',
   email: 'joao@gmail.com',
   password: '123',
 };
