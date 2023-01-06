@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreateVehicleTypeDto } from './dto/create-vehicle-type.dto';
 import { UpdateVehicleTypeDto } from './dto/update-vehicle-type.dto';
-import { VehicleTypeService } from 'src/@core/application/usecase/vehicle-type/vehicle-type.service';
+import { VehicleTypeService } from '../@core/application/usecase/vehicle-type/vehicle-type.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import {
   ApiBearerAuth,

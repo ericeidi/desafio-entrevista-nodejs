@@ -69,10 +69,10 @@ export class ParkingLotReservationController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'find all bookings' })
+  @ApiOperation({ summary: 'find all reservations' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: booking listing',
+    description: 'Expected response: reservation listing',
   })
   @ApiResponse({
     status: 500,
@@ -86,7 +86,7 @@ export class ParkingLotReservationController {
   @ApiOperation({ summary: 'find reservation by property' })
   @ApiResponse({
     status: 200,
-    description: 'Expected response: booking list by establishment',
+    description: 'Expected response: reservation list by company',
   })
   @ApiResponse({
     status: 500,
@@ -121,7 +121,7 @@ export class ParkingLotReservationController {
 
   @Get('find-depart-quantity-by-hour')
   @ApiOperation({
-    summary: 'find quantity of incoming vehicles per outgoing hour',
+    summary: 'find quantity of incoming vehicles per departure time',
   })
   @ApiResponse({
     status: 200,
