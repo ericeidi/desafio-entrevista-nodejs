@@ -8,7 +8,7 @@ This system was developed in order to manage cars and motorcycles which are park
 - Management of company information including name, cnpj, address, telephone, car spaces and motorcycle spaces.
 - Management of user including name, email, username and password.
 - Inclusion of one or more vehicles for an user.
-- Management of parking spaces and preventing parking in occupied spaces of a certain company.
+- Management of parking spaces of a certain company.
 
 ## ⌨️ Technologies
 

@@ -9,6 +9,8 @@ import { ParkingLotReservation } from '../../../domain/entity/parking-lot-reserv
 import { ParkingLotSpaceCounter } from '../../../domain/entity/parking-lot-reservation/parking-lot-space-counter';
 import { ParkingLotReservationRepository } from '../../../domain/repository/parking-lot-reservation/parking-lot-reservation.repository';
 import { VehicleRepository } from '../../../domain/repository/vehicle/vehicle.repository';
+import { Company } from '../../../domain/entity/company/company';
+import { Vehicle } from '../../../domain/entity/vehicle/vehicle';
 
 export class ParkingLotReservationService {
   constructor(
@@ -21,31 +23,32 @@ export class ParkingLotReservationService {
     createParkingReservationDto: CreateParkingReservationDto,
   ) {
     try {
-      const repositories =
+      const { companyInRepository, vehicleInRepository, parkedVehicle } =
         await this.getRequiredRepositoriesForCreateReservation(
           createParkingReservationDto,
         );
 
       const parkingLotReservation = new ParkingLotReservation(
-        repositories.companyInRepository,
-        repositories.vehicleInRepository,
+        companyInRepository,
+        vehicleInRepository,
       );
       parkingLotReservation.handleDecreaseSpace();
       parkingLotReservation.addArrivalTime();
 
       const responseCreated = await this.createReservationIfVehicleNotExists(
-        repositories,
+        companyInRepository,
+        parkedVehicle,
         parkingLotReservation,
       );
       if (responseCreated) return parkingLotReservation;
 
-      if (!repositories.parkedVehicle.departTime)
+      if (!parkedVehicle.departTime)
         throw new BadRequestException(
           'Ainda existe uma reserva ativa para este veiculo',
         );
 
       await this.createReservationIfVehicleExists(
-        repositories,
+        companyInRepository,
         parkingLotReservation,
       );
 
@@ -59,15 +62,19 @@ export class ParkingLotReservationService {
     updateParkingReservationDto: UpdateParkingReservationDto,
   ): Promise<void> {
     try {
-      const repositories =
+      const { parkedVehicle, companyInRepository, vehicleInRepository } =
         await this.getRequiredRepositoriesForUpdateReservation(
           updateParkingReservationDto,
         );
 
-      if (repositories.parkedVehicle.departTime)
+      if (parkedVehicle.departTime)
         throw new BadRequestException('Reserva do veiculo já está finalizada');
 
-      await this.updateReservationIfVehicleIsNotDeparted(repositories);
+      await this.updateReservationIfVehicleIsNotDeparted(
+        companyInRepository,
+        parkedVehicle,
+        vehicleInRepository,
+      );
     } catch (e) {
       throw e;
     }
@@ -136,23 +143,24 @@ export class ParkingLotReservationService {
   }
 
   private async createReservationIfVehicleExists(
-    repositories,
+    companyInRepository: Company,
     parkingLotReservation: ParkingLotReservation,
   ) {
     await this.companyRepository.update(
-      repositories.companyInRepository.cnpj,
-      repositories.companyInRepository,
+      companyInRepository.cnpj,
+      companyInRepository,
     );
     await this.parkingLotReservationRepository.insert(parkingLotReservation);
   }
   private async createReservationIfVehicleNotExists(
-    repositories,
+    companyInRepository: Company,
+    parkedVehicle: ParkingLotReservation,
     parkingLotReservation: ParkingLotReservation,
   ) {
-    if (!repositories.parkedVehicle) {
+    if (!parkedVehicle) {
       await this.companyRepository.update(
-        repositories.companyInRepository.cnpj,
-        repositories.companyInRepository,
+        companyInRepository.cnpj,
+        companyInRepository,
       );
       await this.parkingLotReservationRepository.insert(parkingLotReservation);
 
@@ -160,18 +168,22 @@ export class ParkingLotReservationService {
     }
   }
 
-  private async updateReservationIfVehicleIsNotDeparted(repositories) {
+  private async updateReservationIfVehicleIsNotDeparted(
+    companyInRepository: Company,
+    parkedVehicle: ParkingLotReservation,
+    vehicleInRepository: Vehicle,
+  ) {
     const parkingLotReservation = new ParkingLotReservation(
-      repositories.companyInRepository,
-      repositories.vehicleInRepository,
-      repositories.parkedVehicle.id,
+      companyInRepository,
+      vehicleInRepository,
+      parkedVehicle.id,
     );
     parkingLotReservation.handleIncreaseSpace();
     parkingLotReservation.addDepartTime();
 
     await this.companyRepository.update(
-      repositories.companyInRepository.cnpj,
-      repositories.companyInRepository,
+      companyInRepository.cnpj,
+      companyInRepository,
     );
     console.log(parkingLotReservation);
     await this.parkingLotReservationRepository.update(parkingLotReservation);
