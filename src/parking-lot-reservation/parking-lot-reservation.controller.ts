@@ -39,12 +39,12 @@ export class ParkingLotReservationController {
   @ApiResponse({
     status: 400,
     description:
-      'Expected response: there is already a reservation for selected board',
+      'Expected response: there is already a reservation for selected plate',
   })
-  createReservation(
+  async createReservation(
     @Body() createParkingReservationDto: CreateParkingReservationDto,
   ) {
-    this.parkingLotReservationService.startReservation(
+    await this.parkingLotReservationService.startReservation(
       createParkingReservationDto,
     );
   }
@@ -52,7 +52,7 @@ export class ParkingLotReservationController {
   @Patch('finish-reservation')
   @ApiOperation({ summary: 'finish a reservation' })
   @ApiResponse({
-    status: 200,
+    status: 201,
     description:
       'Expected response: finished reservation for selected car license plate',
   })
@@ -60,10 +60,10 @@ export class ParkingLotReservationController {
     status: 400,
     description: 'Expected response: reservation is already finalized',
   })
-  finishReservation(
+  async finishReservation(
     @Body() updateParkingReservationDto: UpdateParkingReservationDto,
   ) {
-    return this.parkingLotReservationService.finishReservation(
+    await this.parkingLotReservationService.finishReservation(
       updateParkingReservationDto,
     );
   }

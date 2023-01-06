@@ -1,12 +1,8 @@
-import { DataSource, Repository } from 'typeorm';
-import { DatabaseDevCredentials } from '../../../../shared/constants/database-dev-settings';
+import { DataSource, DataSourceOptions, Repository } from 'typeorm';
+import { dataSourceDevParams } from '../../../../shared/constants/database-dev-settings';
 import { CreateUserDto } from '../../../../user/dto/create-user.dto';
-import { CompanySchema } from '../../../infra/db/company/company.schema';
-import { ParkingLotReservationSchema } from '../../../infra/db/parking-lot-reservation/parking-lot-reservation.schema';
 import { UserTypeormRepository } from '../../../infra/db/user/user-typeorm.repository';
 import { UserSchema } from '../../../infra/db/user/user.schema';
-import { VehicleTypeSchema } from '../../../infra/db/vehicle-type/vehicle-type.schema';
-import { VehicleSchema } from '../../../infra/db/vehicle/vehicle.schema';
 import { UserService } from './user.service';
 
 const mockInputParams: CreateUserDto = {
@@ -24,25 +20,7 @@ describe('UserService Test', () => {
   let userService: UserService;
 
   beforeEach(async () => {
-    const databaseCredentials = new DatabaseDevCredentials();
-    dataSource = new DataSource({
-      type: 'mysql',
-      host: databaseCredentials.host,
-      port: databaseCredentials.port,
-      username: databaseCredentials.username,
-      password: databaseCredentials.password,
-      database: databaseCredentials.password,
-      dropSchema: true,
-      synchronize: true,
-      logging: true,
-      entities: [
-        UserSchema,
-        VehicleSchema,
-        VehicleTypeSchema,
-        ParkingLotReservationSchema,
-        CompanySchema,
-      ],
-    });
+    dataSource = new DataSource(dataSourceDevParams as DataSourceOptions);
     await dataSource.initialize();
     ormUserRepo = dataSource.getRepository(UserSchema);
     userRepository = new UserTypeormRepository(ormUserRepo);

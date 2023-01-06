@@ -1,13 +1,9 @@
+import { DataSource, DataSourceOptions, Repository } from 'typeorm';
 import { VehicleTypeSchema } from '../../../../@core/infra/db/vehicle-type/vehicle-type.schema';
-import { DataSource, Repository } from 'typeorm';
+import { dataSourceDevParams } from '../../../../shared/constants/database-dev-settings';
 import { CreateVehicleTypeDto } from '../../../../vehicle-type/dto/create-vehicle-type.dto';
 import { VehicleTypeTypeormRepository } from '../../../infra/db/vehicle-type/vehicle-typeorm.repository';
 import { VehicleTypeService } from './vehicle-type.service';
-import { DatabaseDevCredentials } from '../../../../shared/constants/database-dev-settings';
-import { VehicleSchema } from '../../../infra/db/vehicle/vehicle.schema';
-import { ParkingLotReservationSchema } from '../../../infra/db/parking-lot-reservation/parking-lot-reservation.schema';
-import { CompanySchema } from '../../../../@core/infra/db/company/company.schema';
-import { UserSchema } from '../../../../@core/infra/db/user/user.schema';
 
 const mockInputParams: CreateVehicleTypeDto = {
   id: 1,
@@ -24,25 +20,7 @@ describe('VehicleType Service Test', () => {
   let vehicleTypeService: VehicleTypeService;
 
   beforeEach(async () => {
-    const databaseCredentials = new DatabaseDevCredentials();
-    dataSource = new DataSource({
-      type: 'mysql',
-      host: databaseCredentials.host,
-      port: databaseCredentials.port,
-      username: databaseCredentials.username,
-      password: databaseCredentials.password,
-      database: databaseCredentials.password,
-      synchronize: true,
-      dropSchema: true,
-      logging: true,
-      entities: [
-        VehicleTypeSchema,
-        VehicleSchema,
-        UserSchema,
-        CompanySchema,
-        ParkingLotReservationSchema,
-      ],
-    });
+    dataSource = new DataSource(dataSourceDevParams as DataSourceOptions);
     await dataSource.initialize();
     ormRepo = dataSource.getRepository(VehicleTypeSchema);
     repository = new VehicleTypeTypeormRepository(ormRepo);

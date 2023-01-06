@@ -1,14 +1,12 @@
+import { DataSource, DataSourceOptions, Repository } from 'typeorm';
 import { UserTypeormRepository } from '../../../../@core/infra/db/user/user-typeorm.repository';
 import { VehicleTypeormRepository } from '../../../../@core/infra/db/vehicle/vehicle-typeorm.repository';
-import { CreateVehicleDto } from '../../../../vehicle/dto/create-vehicle.dto';
-import { DataSource, Repository } from 'typeorm';
-import { DatabaseDevCredentials } from '../../../../shared/constants/database-dev-settings';
+import { dataSourceDevParams } from '../../../../shared/constants/database-dev-settings';
 import { CreateUserDto } from '../../../../user/dto/create-user.dto';
 import { CreateVehicleTypeDto } from '../../../../vehicle-type/dto/create-vehicle-type.dto';
+import { CreateVehicleDto } from '../../../../vehicle/dto/create-vehicle.dto';
 import { User } from '../../../domain/entity/user/user';
 import { VehicleType } from '../../../domain/entity/vehicle-type/vehicle-type';
-import { CompanySchema } from '../../../infra/db/company/company.schema';
-import { ParkingLotReservationSchema } from '../../../infra/db/parking-lot-reservation/parking-lot-reservation.schema';
 import { UserSchema } from '../../../infra/db/user/user.schema';
 import { VehicleTypeSchema } from '../../../infra/db/vehicle-type/vehicle-type.schema';
 import { VehicleTypeTypeormRepository } from '../../../infra/db/vehicle-type/vehicle-typeorm.repository';
@@ -46,25 +44,7 @@ describe('Vehicle Service Test', () => {
   let vehicleTypeRepository: VehicleTypeTypeormRepository;
 
   beforeEach(async () => {
-    const databaseCredentials = new DatabaseDevCredentials();
-    dataSource = new DataSource({
-      type: 'mysql',
-      host: databaseCredentials.host,
-      port: databaseCredentials.port,
-      username: databaseCredentials.username,
-      password: databaseCredentials.password,
-      database: databaseCredentials.password,
-      synchronize: true,
-      dropSchema: true,
-      logging: true,
-      entities: [
-        VehicleSchema,
-        VehicleTypeSchema,
-        UserSchema,
-        CompanySchema,
-        ParkingLotReservationSchema,
-      ],
-    });
+    dataSource = new DataSource(dataSourceDevParams as DataSourceOptions);
     await dataSource.initialize();
     ormRepo = dataSource.getRepository(VehicleSchema);
     vehicleRepository = new VehicleTypeormRepository(ormRepo);

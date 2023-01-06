@@ -1,13 +1,13 @@
 import { CompanyTypeormRepository } from '../../../../@core/infra/db/company/company-typeorm.repository';
 import { CompanySchema } from '../../../../@core/infra/db/company/company.schema';
 import { CreateCompanyDto } from '../../../../company/dto/create-company.dto';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, DataSourceOptions, Repository } from 'typeorm';
 import { CompanyService } from './company.service';
-import { DatabaseDevCredentials } from '../../../../shared/constants/database-dev-settings';
 import { ParkingLotReservationSchema } from '../../../infra/db/parking-lot-reservation/parking-lot-reservation.schema';
 import { VehicleSchema } from '../../../infra/db/vehicle/vehicle.schema';
 import { VehicleTypeSchema } from '../../../infra/db/vehicle-type/vehicle-type.schema';
 import { UserSchema } from '../../../infra/db/user/user.schema';
+import { dataSourceDevParams } from '../../../../shared/constants/database-dev-settings';
 
 const mockInputParams: CreateCompanyDto = {
   name: 'Dr.Consulta',
@@ -34,25 +34,7 @@ describe('CompanyService Test', () => {
   let companyService: CompanyService;
 
   beforeEach(async () => {
-    const databaseCredentials = new DatabaseDevCredentials();
-    dataSource = new DataSource({
-      type: 'mysql',
-      host: databaseCredentials.host,
-      port: databaseCredentials.port,
-      username: databaseCredentials.username,
-      password: databaseCredentials.password,
-      database: databaseCredentials.password,
-      synchronize: true,
-      dropSchema: true,
-      logging: true,
-      entities: [
-        CompanySchema,
-        ParkingLotReservationSchema,
-        VehicleSchema,
-        VehicleTypeSchema,
-        UserSchema,
-      ],
-    });
+    dataSource = new DataSource(dataSourceDevParams as DataSourceOptions);
     await dataSource.initialize();
     ormRepo = dataSource.getRepository(CompanySchema);
     repository = new CompanyTypeormRepository(ormRepo);

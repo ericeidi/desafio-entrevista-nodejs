@@ -33,7 +33,7 @@ export class VehicleController {
   })
   @ApiResponse({
     status: 400,
-    description: 'Expected response: existing board or user',
+    description: 'Expected response: existing plate or user',
   })
   create(@Body() createVehicleDto: CreateVehicleDto) {
     return this.vehicleService.create(createVehicleDto);

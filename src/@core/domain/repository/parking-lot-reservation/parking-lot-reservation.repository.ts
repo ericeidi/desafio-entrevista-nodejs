@@ -7,7 +7,7 @@ import { Vehicle } from '../../entity/vehicle/vehicle';
 export interface ParkingLotReservationRepository {
   insert(parkingLotReservation: ParkingLotReservation): Promise<void>;
   update(parkingLotReservation: ParkingLotReservation): Promise<void>;
-  findByVehicle(vehicle: Vehicle): Promise<ParkingLotReservationSchema[]>;
+  findByVehicle(vehicle: Vehicle): Promise<ParkingLotReservation[]>;
   findAllReservations(): Promise<ParkingLotReservation[]>;
   findReservationByCompany(companyId: number): Promise<ParkingLotReservation[]>;
   findDepartReservationQuantityByHour(

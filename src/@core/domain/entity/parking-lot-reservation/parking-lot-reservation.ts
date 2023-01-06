@@ -18,7 +18,7 @@ export class ParkingLotReservation {
     this.vehicle = vehicle;
   }
 
-  handleDecreaseSpace?() {
+  handleDecreaseSpace?(): number | BadRequestException {
     const isAvailableToDecreaseSpot = {
       [vehicleTypeEnum.CAR]: () => {
         if (this.company.carSpaces <= EMPTY_SPACES) {
@@ -33,7 +33,8 @@ export class ParkingLotReservation {
         return (this.company.motorCycleSpaces -= 1);
       },
     };
-    return isAvailableToDecreaseSpot[this.vehicle.vehicleType.type]();
+    if (this.vehicle.vehicleType.type)
+      return isAvailableToDecreaseSpot[this.vehicle.vehicleType.type]();
   }
 
   handleIncreaseSpace?() {
@@ -51,7 +52,8 @@ export class ParkingLotReservation {
         return (this.company.motorCycleSpaces += 1);
       },
     };
-    return isAvailableToIncreaseSpot[this.vehicle.vehicleType.type]();
+    if (this.vehicle.vehicleType.type)
+      return isAvailableToIncreaseSpot[this.vehicle.vehicleType.type]();
   }
 
   addDepartTime?() {
