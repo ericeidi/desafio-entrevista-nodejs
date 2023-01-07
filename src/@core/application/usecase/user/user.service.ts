@@ -30,33 +30,45 @@ export class UserService {
   }
 
   async findAll() {
-    const user = await this.userRepository.findAll();
-    if (!user) {
-      throw new NotFoundException(
-        'Não foi encontrado nenhum resultado para essa busca',
-      );
+    try {
+      const user = await this.userRepository.findAll();
+      if (!user) {
+        throw new NotFoundException(
+          'Não foi encontrado nenhum resultado para essa busca',
+        );
+      }
+      return user;
+    } catch (e) {
+      throw e;
     }
-    return user;
   }
 
   async findById(id: number) {
-    const user = await this.userRepository.findById(id);
-    if (!user) {
-      throw new NotFoundException(
-        'Não foi encontrado nenhum resultado para essa busca',
-      );
+    try {
+      const user = await this.userRepository.findById(id);
+      if (!user) {
+        throw new NotFoundException(
+          'Não foi encontrado nenhum resultado para essa busca',
+        );
+      }
+      return user;
+    } catch (e) {
+      throw e;
     }
-    return user;
   }
 
   async findByUsername(username: string) {
-    const user = await this.userRepository.findByUsername(username);
-    if (!user) {
-      throw new NotFoundException(
-        'Não foi encontrado nenhum resultado para essa busca',
-      );
+    try {
+      const user = await this.userRepository.findByUsername(username);
+      if (!user) {
+        throw new NotFoundException(
+          'Não foi encontrado nenhum resultado para essa busca',
+        );
+      }
+      return user;
+    } catch (e) {
+      throw e;
     }
-    return user;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
