@@ -27,7 +27,7 @@ export class VehicleService {
         throw new BadRequestException('Placa já utilizada');
       }
 
-      const vehicleType = await this.vehicleTypeRepository.findByType(
+      const vehicleType = await this.vehicleTypeRepository.findById(
         createVehicleDto.vehicleTypeId,
       );
       if (!vehicleType) {
