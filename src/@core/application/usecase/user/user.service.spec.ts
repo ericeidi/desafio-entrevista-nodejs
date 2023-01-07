@@ -34,7 +34,7 @@ describe('UserService Test', () => {
   it('should create an user', async () => {
     const createdUser = await userService.create(mockInputParams);
     const model = await ormUserRepo.findOneBy({ id: createdUser.id });
-    expect(model.password).toBe('123');
+    expect(model.password).not.toBe('123');
     expect(model.email).toBe('joao@gmail.com');
     expect(model.name).toBe('joao');
   });
@@ -49,16 +49,10 @@ describe('UserService Test', () => {
       password: '123',
     });
     const model = await userService.findAll();
-    expect(model).toEqual([
-      mockInputParams,
-      {
-        id: 2,
-        name: 'joao2',
-        username: 'joao346',
-        email: 'joao2@gmail.com',
-        password: '123',
-      },
-    ]);
+    expect(model[0].name).toBe('joao');
+    expect(model[1].name).toBe('joao2');
+    expect(model[0].email).toBe('joao@gmail.com');
+    expect(model[1].email).toBe('joao2@gmail.com');
   });
   it('should list an user by id', async () => {
     await userService.create(mockInputParams);

@@ -1,8 +1,10 @@
 import {
-  BadRequestException,
+  ConflictException,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+
+import { hashPassword } from '../../../../shared/utils/hash-password';
 import { UserRepository } from '../../../../@core/domain/repository/user/user.repository';
 import { CreateUserDto } from '../../../../user/dto/create-user.dto';
 import { UpdateUserDto } from '../../../../user/dto/update-user.dto';
@@ -12,14 +14,19 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async create(createUserDto: CreateUserDto) {
-    const user = new User(createUserDto);
-    const userAlreadyExists = await this.userRepository.findByUsername(
-      user.username,
-    );
-    if (userAlreadyExists) {
-      throw new BadRequestException('Usuário já existe');
+    try {
+      const user = new User(createUserDto);
+      user.password = await hashPassword(user.password);
+      const userAlreadyExists = await this.userRepository.findByUsername(
+        user.username,
+      );
+      if (userAlreadyExists) {
+        throw new ConflictException('Usuário já existe');
+      }
+      return await this.userRepository.insert(user);
+    } catch (e) {
+      throw e;
     }
-    return await this.userRepository.insert(user);
   }
 
   async findAll() {
