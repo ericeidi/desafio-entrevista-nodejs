@@ -18,51 +18,64 @@ export class VehicleService {
   ) {}
 
   async create(createVehicleDto: CreateVehicleDto) {
-    const verifyLicensePlate = await this.vehicleRepository.findByLicensePlate(
-      createVehicleDto.licensePlate,
-    );
-    if (verifyLicensePlate.length !== 0) {
-      throw new BadRequestException('Placa já utilizada');
-    }
+    try {
+      const verifyLicensePlate =
+        await this.vehicleRepository.findByLicensePlate(
+          createVehicleDto.licensePlate,
+        );
+      if (verifyLicensePlate.length !== 0) {
+        throw new BadRequestException('Placa já utilizada');
+      }
 
-    const vehicleType = await this.vehicleTypeRepository.findByType(
-      createVehicleDto.vehicleTypeId,
-    );
-    if (!vehicleType) {
-      throw new BadRequestException('Tipo de veiculo inexistente');
-    }
+      const vehicleType = await this.vehicleTypeRepository.findByType(
+        createVehicleDto.vehicleTypeId,
+      );
+      if (!vehicleType) {
+        throw new BadRequestException('Tipo de veiculo inexistente');
+      }
 
-    const user = await this.userRepository.findById(createVehicleDto.userId);
-    if (!user) {
-      throw new BadRequestException('Usuário inexistente');
-    }
+      const user = await this.userRepository.findById(createVehicleDto.userId);
+      if (!user) {
+        throw new BadRequestException('Usuário inexistente');
+      }
 
-    const createdVehicle = new Vehicle(
-      createVehicleDto.licensePlate,
-      user,
-      vehicleType,
-    );
-    return await this.vehicleRepository.insert(createdVehicle);
+      const createdVehicle = new Vehicle(
+        createVehicleDto.licensePlate,
+        user,
+        vehicleType,
+      );
+      return await this.vehicleRepository.insert(createdVehicle);
+    } catch (e) {
+      throw e;
+    }
   }
 
   async findAll() {
-    const vehicle = await this.vehicleRepository.findAll();
-    if (!vehicle) {
-      throw new NotFoundException(
-        'Não foi encontrado nenhum resultado para essa busca',
-      );
+    try {
+      const vehicle = await this.vehicleRepository.findAll();
+      if (!vehicle) {
+        throw new NotFoundException(
+          'Não foi encontrado nenhum resultado para essa busca',
+        );
+      }
+      return vehicle;
+    } catch (e) {
+      throw e;
     }
-    return vehicle;
   }
 
   async findById(id: number) {
-    const vehicle = await this.vehicleRepository.findById(id);
-    if (!vehicle) {
-      throw new NotFoundException(
-        'Não foi encontrado nenhum resultado para essa busca',
-      );
+    try {
+      const vehicle = await this.vehicleRepository.findById(id);
+      if (!vehicle) {
+        throw new NotFoundException(
+          'Não foi encontrado nenhum resultado para essa busca',
+        );
+      }
+      return vehicle;
+    } catch (e) {
+      throw e;
     }
-    return vehicle;
   }
 
   async update(id: number, updateUserDto: UpdateVehicleDto) {

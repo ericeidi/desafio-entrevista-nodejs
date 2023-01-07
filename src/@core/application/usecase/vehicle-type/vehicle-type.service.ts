@@ -11,29 +11,41 @@ export class VehicleTypeService {
   constructor(private vehicleTypeRepository: VehicleTypeRepository) {}
 
   async create(createVehicleTypeDto: CreateVehicleTypeDto) {
-    const vehicleType = new VehicleType(createVehicleTypeDto);
-    await this.vehicleTypeRepository.insert(vehicleType);
-    return vehicleType;
+    try {
+      const vehicleType = new VehicleType(createVehicleTypeDto);
+      await this.vehicleTypeRepository.insert(vehicleType);
+      return vehicleType;
+    } catch (e) {
+      throw e;
+    }
   }
 
   async findAll() {
-    const vehicleType = await this.vehicleTypeRepository.findAll();
-    if (!vehicleType) {
-      throw new NotFoundException(
-        'Não foi encontrado nenhum resultado para essa busca',
-      );
+    try {
+      const vehicleType = await this.vehicleTypeRepository.findAll();
+      if (!vehicleType) {
+        throw new NotFoundException(
+          'Não foi encontrado nenhum resultado para essa busca',
+        );
+      }
+      return vehicleType;
+    } catch (e) {
+      throw e;
     }
-    return vehicleType;
   }
 
   async findById(id: number) {
-    const vehicleType = await this.vehicleTypeRepository.findById(id);
-    if (!vehicleType) {
-      throw new NotFoundException(
-        'Não foi encontrado nenhum resultado para essa busca',
-      );
+    try {
+      const vehicleType = await this.vehicleTypeRepository.findById(id);
+      if (!vehicleType) {
+        throw new NotFoundException(
+          'Não foi encontrado nenhum resultado para essa busca',
+        );
+      }
+      return vehicleType;
+    } catch (e) {
+      throw e;
     }
-    return vehicleType;
   }
 
   async update(id: number, updateVehicleTypeDto: UpdateVehicleTypeDto) {
