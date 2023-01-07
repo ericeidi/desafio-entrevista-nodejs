@@ -81,90 +81,120 @@ export class ParkingLotReservationService {
   }
 
   async findAllReservations() {
-    const reservations =
-      await this.parkingLotReservationRepository.findAllReservations();
-    const spaceCounter = new ParkingLotSpaceCounter();
-    spaceCounter.handleCountArrivalSpace(reservations);
-    spaceCounter.handleCountDepartSpace(reservations);
-    return [reservations, spaceCounter];
+    try {
+      const reservations =
+        await this.parkingLotReservationRepository.findAllReservations();
+      const spaceCounter = new ParkingLotSpaceCounter();
+      spaceCounter.handleCountArrivalSpace(reservations);
+      spaceCounter.handleCountDepartSpace(reservations);
+      return [reservations, spaceCounter];
+    } catch (e) {
+      throw e;
+    }
   }
 
   async findReservationByCompany(companyId: number) {
-    const reservations =
-      await this.parkingLotReservationRepository.findReservationByCompany(
-        companyId,
-      );
-    const spaceCounter = new ParkingLotSpaceCounter();
-    spaceCounter.handleCountArrivalSpace(reservations);
-    spaceCounter.handleCountDepartSpace(reservations);
-    return [reservations, spaceCounter];
+    try {
+      const reservations =
+        await this.parkingLotReservationRepository.findReservationByCompany(
+          companyId,
+        );
+      const spaceCounter = new ParkingLotSpaceCounter();
+      spaceCounter.handleCountArrivalSpace(reservations);
+      spaceCounter.handleCountDepartSpace(reservations);
+      return [reservations, spaceCounter];
+    } catch (e) {
+      throw e;
+    }
   }
 
   async findArrivalReservationQuantityByHour(
     query: FindArrivalQuantityReservationDto,
   ) {
-    return await this.parkingLotReservationRepository.findArrivalReservationQuantityByHour(
-      query,
-    );
+    try {
+      return await this.parkingLotReservationRepository.findArrivalReservationQuantityByHour(
+        query,
+      );
+    } catch (e) {
+      throw e;
+    }
   }
 
   async findDepartReservationQuantityByHour(
     query: FindDepartQuantityReservationDto,
   ) {
-    return await this.parkingLotReservationRepository.findDepartReservationQuantityByHour(
-      query,
-    );
+    try {
+      return await this.parkingLotReservationRepository.findDepartReservationQuantityByHour(
+        query,
+      );
+    } catch (e) {
+      throw e;
+    }
   }
 
   private async getRequiredRepositoriesForCreateReservation(
     createParkingReservationDto: CreateParkingReservationDto,
   ) {
-    const [vehicleInRepository] =
-      await this.vehicleRepository.findByLicensePlate(
-        createParkingReservationDto.licensePlate,
+    try {
+      const [vehicleInRepository] =
+        await this.vehicleRepository.findByLicensePlate(
+          createParkingReservationDto.licensePlate,
+        );
+
+      if (!vehicleInRepository)
+        throw new NotFoundException('Veiculo nao encontrado');
+
+      const companyInRepository = await this.companyRepository.findByCnpj(
+        createParkingReservationDto.cnpj,
       );
 
-    if (!vehicleInRepository)
-      throw new NotFoundException('Veiculo nao encontrado');
+      if (!companyInRepository)
+        throw new NotFoundException('Estabelecimento nao encontrado');
 
-    const companyInRepository = await this.companyRepository.findByCnpj(
-      createParkingReservationDto.cnpj,
-    );
+      const [parkedVehicle] =
+        await this.parkingLotReservationRepository.findByVehicle(
+          vehicleInRepository,
+        );
 
-    if (!companyInRepository)
-      throw new NotFoundException('Estabelecimento nao encontrado');
-
-    const [parkedVehicle] =
-      await this.parkingLotReservationRepository.findByVehicle(
-        vehicleInRepository,
-      );
-
-    return { vehicleInRepository, companyInRepository, parkedVehicle };
+      return { vehicleInRepository, companyInRepository, parkedVehicle };
+    } catch (e) {
+      throw e;
+    }
   }
 
   private async createReservationIfVehicleExists(
     companyInRepository: Company,
     parkingLotReservation: ParkingLotReservation,
   ) {
-    await this.companyRepository.update(
-      companyInRepository.cnpj,
-      companyInRepository,
-    );
-    await this.parkingLotReservationRepository.insert(parkingLotReservation);
+    try {
+      await this.companyRepository.update(
+        companyInRepository.cnpj,
+        companyInRepository,
+      );
+      await this.parkingLotReservationRepository.insert(parkingLotReservation);
+    } catch (e) {
+      throw e;
+    }
   }
   private async createReservationIfVehicleNotExists(
     companyInRepository: Company,
     parkedVehicle: ParkingLotReservation,
     parkingLotReservation: ParkingLotReservation,
   ) {
-    if (!parkedVehicle) {
-      await this.companyRepository.update(
-        companyInRepository.cnpj,
-        companyInRepository,
-      );
-      await this.parkingLotReservationRepository.insert(parkingLotReservation);
+    try {
+      if (!parkedVehicle) {
+        await this.companyRepository.update(
+          companyInRepository.cnpj,
+          companyInRepository,
+        );
+        await this.parkingLotReservationRepository.insert(
+          parkingLotReservation,
+        );
 
-      return parkingLotReservation;
+        return parkingLotReservation;
+      }
+    } catch (e) {
+      throw e;
     }
   }
 
@@ -173,38 +203,45 @@ export class ParkingLotReservationService {
     parkedVehicle: ParkingLotReservation,
     vehicleInRepository: Vehicle,
   ) {
-    const parkingLotReservation = new ParkingLotReservation(
-      companyInRepository,
-      vehicleInRepository,
-      parkedVehicle.id,
-    );
-    parkingLotReservation.handleIncreaseSpace();
-    parkingLotReservation.addDepartTime();
+    try {
+      const parkingLotReservation = new ParkingLotReservation(
+        companyInRepository,
+        vehicleInRepository,
+        parkedVehicle.id,
+      );
+      parkingLotReservation.handleIncreaseSpace();
+      parkingLotReservation.addDepartTime();
 
-    await this.companyRepository.update(
-      companyInRepository.cnpj,
-      companyInRepository,
-    );
-    console.log(parkingLotReservation);
-    await this.parkingLotReservationRepository.update(parkingLotReservation);
+      await this.companyRepository.update(
+        companyInRepository.cnpj,
+        companyInRepository,
+      );
+      await this.parkingLotReservationRepository.update(parkingLotReservation);
+    } catch (e) {
+      throw e;
+    }
   }
   private async getRequiredRepositoriesForUpdateReservation(
     updateParkingReservationDto: UpdateParkingReservationDto,
   ) {
-    const [vehicleInRepository] =
-      await this.vehicleRepository.findByLicensePlate(
-        updateParkingReservationDto.licensePlate,
+    try {
+      const [vehicleInRepository] =
+        await this.vehicleRepository.findByLicensePlate(
+          updateParkingReservationDto.licensePlate,
+        );
+
+      const [parkedVehicle] =
+        await this.parkingLotReservationRepository.findByVehicle(
+          vehicleInRepository,
+        );
+
+      const companyInRepository = await this.companyRepository.findByCnpj(
+        parkedVehicle.company.cnpj,
       );
 
-    const [parkedVehicle] =
-      await this.parkingLotReservationRepository.findByVehicle(
-        vehicleInRepository,
-      );
-
-    const companyInRepository = await this.companyRepository.findByCnpj(
-      parkedVehicle.company.cnpj,
-    );
-
-    return { vehicleInRepository, parkedVehicle, companyInRepository };
+      return { vehicleInRepository, parkedVehicle, companyInRepository };
+    } catch (e) {
+      throw e;
+    }
   }
 }
